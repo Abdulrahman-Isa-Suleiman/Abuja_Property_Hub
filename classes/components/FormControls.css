@@ -1,0 +1,63 @@
+/* ─── TOGGLE GROUP ───────────────────────────────────────────────────────────── */
+.tgroup { display: flex; background: var(--off); border: 1.5px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; padding: 3px; gap: 2px; }
+.tbtn   { flex: 1; padding: 0.62rem 0.5rem; border: none; background: transparent; font-family: var(--font-body); font-size: 0.76rem; letter-spacing: 0.07em; color: var(--stone); cursor: pointer; transition: all 0.2s; text-transform: uppercase; border-radius: calc(var(--radius-sm) - 1px); }
+.tbtn.on           { background: var(--white); color: var(--ink); font-weight: 500; box-shadow: 0 1px 4px rgba(28, 28, 28, 0.1); }
+.tbtn:hover:not(.on) { color: var(--charcoal); background: rgba(255, 255, 255, 0.5); }
+
+/* ─── ROOMS STEPPER ──────────────────────────────────────────────────────────── */
+.rooms-stepper { display: flex; align-items: stretch; background: var(--white); border: 1.5px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; height: 46px; transition: border-color 0.2s; }
+.rooms-stepper:focus-within { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(139, 115, 85, 0.08); }
+
+.rooms-btn { width: 46px; border: none; background: transparent; color: var(--stone); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; line-height: 1; transition: background 0.15s, color 0.15s; flex-shrink: 0; user-select: none; font-family: var(--font-body); }
+.rooms-btn:hover:not(:disabled) { background: var(--off); color: var(--ink); }
+.rooms-btn:disabled              { opacity: 0.25; cursor: default; }
+.rooms-btn:first-child           { border-right: 1px solid var(--border); }
+.rooms-btn:last-child            { border-left:  1px solid var(--border); }
+
+.rooms-val     { flex: 1; text-align: center; font-size: 1rem; font-weight: 500; color: var(--ink); font-family: var(--font-body); display: flex; align-items: center; justify-content: center; }
+.rooms-val.any { font-size: 0.74rem; color: var(--mist); font-weight: 400; letter-spacing: 0.04em; }
+
+/* ─── PRICE SLIDER ───────────────────────────────────────────────────────────── */
+.price-slider-wrap { background: var(--white); border: 1.5px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+
+.price-display { display: grid; grid-template-columns: 1fr auto 1fr; align-items: stretch; border-bottom: 1.5px solid var(--border); }
+.price-val-box             { padding: 0.85rem 1.1rem; }
+.price-val-box:first-child { border-right: 1px solid var(--border); }
+.price-val-box:last-child  { text-align: right; }
+
+.price-val-label  { display: block; font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--stone); margin-bottom: 0.18rem; font-weight: 500; }
+.price-val-amount { display: block; font-size: 1.05rem; font-weight: 500; color: var(--ink); font-family: var(--font-body); line-height: 1.1; letter-spacing: -0.01em; }
+.price-val-amount.edge { color: var(--mist); font-weight: 400; font-size: 0.82rem; letter-spacing: 0; }
+
+.price-sep-col  { display: flex; align-items: center; justify-content: center; padding: 0 0.7rem; border-right: 1px solid var(--border); }
+.price-sep-dash { width: 10px; height: 1.5px; background: var(--mist); border-radius: 1px; }
+
+.price-track-wrap { padding: 1.4rem 1.4rem 1.1rem; }
+.price-track      { position: relative; height: 3px; background: var(--border); border-radius: 2px; margin: 0 10px; }
+.price-fill       { position: absolute; top: 0; height: 100%; background: var(--accent); border-radius: 2px; pointer-events: none; }
+
+.price-thumb { position: absolute; width: calc(100% + 20px); left: -10px; top: -10px; height: 23px; appearance: none; background: transparent; pointer-events: none; outline: none; margin: 0; }
+.price-thumb::-webkit-slider-thumb { appearance: none; width: 22px; height: 22px; border-radius: 50%; background: var(--white); border: 2px solid var(--accent); box-shadow: 0 1px 6px rgba(28, 28, 28, 0.12), 0 2px 12px rgba(139, 115, 85, 0.22); pointer-events: all; cursor: grab; transition: transform 0.13s, box-shadow 0.13s; }
+.price-thumb::-webkit-slider-thumb:hover  { transform: scale(1.14); box-shadow: 0 2px 10px rgba(28, 28, 28, 0.14), 0 4px 18px rgba(139, 115, 85, 0.32); }
+.price-thumb::-webkit-slider-thumb:active { cursor: grabbing; }
+.price-thumb::-moz-range-thumb { width: 22px; height: 22px; border-radius: 50%; background: var(--white); border: 2px solid var(--accent); box-shadow: 0 1px 6px rgba(28, 28, 28, 0.12); pointer-events: all; cursor: grab; }
+
+.price-range-labels      { display: flex; justify-content: space-between; margin-top: 0.6rem; }
+.price-range-labels span { font-size: 0.63rem; color: var(--mist); letter-spacing: 0.03em; }
+
+/* ─── URGENCY CARDS ──────────────────────────────────────────────────────────── */
+.ugroup { display: flex; gap: 0.9rem; }
+.ucard  { flex: 1; border: 1.5px solid var(--border); border-radius: var(--radius); padding: 1.1rem; cursor: pointer; transition: all 0.2s; text-align: center; background: var(--white); }
+.ucard:hover   { border-color: var(--accent-md); box-shadow: 0 4px 16px rgba(139, 115, 85, 0.1); }
+.ucard.on      { border-color: var(--accent); background: var(--accent-lt); }
+.ucard.on .utitle { color: var(--accent); }
+.ucard.on .uicon  { color: var(--accent); }
+
+.uicon  { width: 34px; height: 34px; margin: 0 auto 0.5rem; display: flex; align-items: center; justify-content: center; color: var(--stone); transition: color 0.2s; }
+.utitle { font-size: 0.82rem; font-weight: 500; letter-spacing: 0.04em; color: var(--charcoal); transition: color 0.2s; }
+.usub   { font-size: 0.7rem; color: var(--stone); margin-top: 0.25rem; }
+
+/* ─── RESPONSIVE ─────────────────────────────────────────────────────────────── */
+@media (max-width: 700px) {
+  .ugroup { flex-direction: column; }
+}

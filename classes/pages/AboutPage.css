@@ -1,0 +1,52 @@
+/* ─── ABOUT HERO ─────────────────────────────────────────────────────────────── */
+.about-hero    { padding: 6.5rem 2rem 4.5rem; background: var(--white); text-align: center; position: relative; overflow: hidden; border-bottom: 1px solid var(--border); }
+.about-rule    { position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, transparent, var(--accent), transparent); opacity: 0.5; }
+.about-hero h1 { font-family: var(--font-display); font-size: clamp(2.6rem, 5vw, 4.6rem); font-weight: 400; color: var(--ink); line-height: 1.1; letter-spacing: -0.015em; max-width: 680px; margin: 0 auto 1.3rem; }
+.about-hero h1 em { font-style: italic; color: var(--accent); }
+.about-hero p  { font-size: 0.97rem; color: var(--stone); line-height: 1.75; max-width: 500px; margin: 0 auto; font-weight: 300; }
+
+/* ─── MISSION & VISION ───────────────────────────────────────────────────────── */
+.mv-sec  { padding: 6rem 2rem; background: var(--off); }
+.mv-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+.mv-card { padding: 2.8rem; border: 1px solid var(--border); border-radius: var(--radius); background: var(--white); }
+.mv-icon { width: 46px; height: 46px; margin-bottom: 1.1rem; display: flex; align-items: center; justify-content: center; background: var(--accent-lt); border-radius: 50%; color: var(--accent); }
+.mv-card h3 { font-family: var(--font-display); font-size: 1.65rem; font-weight: 500; color: var(--ink); margin-bottom: 0.9rem; }
+.mv-card p  { font-size: 0.88rem; color: var(--stone); line-height: 1.8; font-weight: 300; }
+
+/* ─── CORE VALUES ────────────────────────────────────────────────────────────── */
+.vals-sec  { padding: 6rem 2rem; background: var(--white); }
+.vals-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+.vcard       { padding: 2rem 1.8rem; background: var(--off); border: 1px solid var(--border); border-radius: var(--radius); transition: transform 0.28s, box-shadow 0.28s, background 0.2s; }
+.vcard:hover { transform: translateY(-3px); box-shadow: 0 12px 38px rgba(28, 28, 28, 0.06); background: var(--white); }
+.vlabel  { font-size: 0.64rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.7rem; font-weight: 500; }
+.vcard h4 { font-family: var(--font-display); font-size: 1.2rem; font-weight: 500; color: var(--ink); margin-bottom: 0.55rem; }
+.vcard p  { font-size: 0.83rem; color: var(--stone); line-height: 1.7; font-weight: 300; }
+
+/* ─── TEAM ───────────────────────────────────────────────────────────────────── */
+.team-sec  { padding: 6rem 2rem; background: var(--off); }
+.team-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+.tcard       { border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; background: var(--white); transition: transform 0.28s, box-shadow 0.28s; }
+.tcard:hover { transform: translateY(-4px); box-shadow: 0 14px 44px rgba(28, 28, 28, 0.08); }
+.tav  { height: 190px; display: flex; align-items: center; justify-content: center; }
+.tav1 { background: linear-gradient(135deg, #EDE8E2, #DDD5CC); }
+.tav2 { background: linear-gradient(135deg, #E8E2DA, #D4CCBF); }
+.tav3 { background: linear-gradient(135deg, #E2DDD8, #CBC4BB); }
+.tinfo { padding: 1.4rem 1.7rem 1.8rem; }
+.tname { font-family: var(--font-display); font-size: 1.2rem; font-weight: 500; color: var(--ink); margin-bottom: 0.2rem; }
+.trole { font-size: 0.72rem; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.75rem; }
+.tbio  { font-size: 0.83rem; color: var(--stone); line-height: 1.65; font-weight: 300; }
+
+/* ─── CTA BANNER ─────────────────────────────────────────────────────────────── */
+.about-cta-sec    { padding: 5.5rem 2rem; background: var(--ink); text-align: center; }
+.about-cta-sec h2 { font-family: var(--font-display); font-size: clamp(1.9rem, 3.8vw, 3rem); font-weight: 400; color: var(--white); margin-bottom: 0.9rem; letter-spacing: -0.01em; }
+.about-cta-sec p  { font-size: 0.92rem; color: var(--stone); margin-bottom: 2.2rem; font-weight: 300; }
+.cta-lt       { background: var(--white); color: var(--ink); border: none; padding: 0.85rem 2.4rem; font-family: var(--font-body); font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; border-radius: var(--radius-sm); transition: all 0.2s; }
+.cta-lt:hover { background: var(--off); transform: translateY(-1px); }
+
+/* ─── RESPONSIVE ─────────────────────────────────────────────────────────────── */
+@media (max-width: 1000px) {
+  .team-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 700px) {
+  .mv-grid, .vals-grid, .team-grid { grid-template-columns: 1fr; }
+}

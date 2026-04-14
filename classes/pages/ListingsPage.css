@@ -1,0 +1,59 @@
+/* ─── LISTINGS HERO ──────────────────────────────────────────────────────────── */
+.list-hero    { padding: 4.5rem 2rem 3rem; background: var(--white); text-align: center; border-bottom: 1px solid var(--border); }
+.list-hero h1 { font-family: var(--font-display); font-size: clamp(2.2rem, 4.5vw, 3.6rem); font-weight: 400; color: var(--ink); letter-spacing: -0.015em; margin-bottom: 0.5rem; }
+.list-hero h1 em { font-style: italic; color: var(--accent); }
+.list-hero p  { font-size: 0.89rem; color: var(--stone); font-weight: 300; }
+
+/* ─── FILTER BAR ─────────────────────────────────────────────────────────────── */
+.fbar       { background: var(--white); border-bottom: 1px solid var(--border); padding: 1.3rem 2rem; position: sticky; top: 70px; z-index: 100; }
+.fbar-inner { max-width: 1160px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; gap: 0.7rem; }
+.flbl       { font-size: 0.67rem; letter-spacing: 0.13em; text-transform: uppercase; color: var(--stone); font-weight: 500; margin-right: 0.1rem; }
+.fchip       { font-size: 0.74rem; letter-spacing: 0.05em; padding: 0.42rem 0.95rem; border: 1px solid var(--border); border-radius: var(--radius-sm); background: transparent; color: var(--charcoal); cursor: pointer; font-family: var(--font-body); transition: all 0.18s; white-space: nowrap; }
+.fchip:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-lt); }
+.fchip.on    { background: var(--ink); color: var(--white); border-color: var(--ink); }
+.fsep        { width: 1px; height: 22px; background: var(--border); margin: 0 0.3rem; }
+.fcount      { margin-left: auto; font-size: 0.72rem; color: var(--stone); letter-spacing: 0.05em; white-space: nowrap; }
+
+/* ─── PROPERTY GRID ──────────────────────────────────────────────────────────── */
+.list-sec  { padding: 3rem 2rem 5.5rem; background: var(--off); }
+.list-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.8rem; }
+
+/* ─── PROPERTY CARD ──────────────────────────────────────────────────────────── */
+.pcard       { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; transition: transform 0.28s, box-shadow 0.28s; }
+.pcard:hover { transform: translateY(-4px); box-shadow: 0 16px 50px rgba(28, 28, 28, 0.09); }
+
+.pimg    { height: 195px; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+.pimg-bg { position: absolute; inset: 0; }
+.pbadge      { position: absolute; top: 0.9rem; left: 0.9rem; background: var(--ink); color: var(--white); font-size: 0.62rem; letter-spacing: 0.13em; text-transform: uppercase; padding: 0.28rem 0.7rem; border-radius: 2px; }
+.pbadge.rent { background: var(--accent); }
+
+.pbody  { padding: 1.4rem 1.6rem 1.3rem; }
+.ptype  { font-size: 0.64rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); font-weight: 500; margin-bottom: 0.45rem; }
+.ptitle { font-family: var(--font-display); font-size: 1.25rem; font-weight: 500; color: var(--ink); line-height: 1.22; margin-bottom: 0.28rem; }
+.ploc   { font-size: 0.77rem; color: var(--stone); margin-bottom: 0.9rem; display: flex; align-items: center; gap: 0.3rem; }
+.pprice { font-family: var(--font-display); font-size: 1.35rem; font-weight: 500; color: var(--ink); margin-bottom: 0.9rem; line-height: 1; }
+.pprice span { font-size: 0.75rem; font-family: var(--font-body); color: var(--stone); font-weight: 300; letter-spacing: 0.04em; }
+.pdiv   { height: 1px; background: var(--border); margin: 0.9rem 0; }
+.pfeats { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 0.9rem; }
+.pfeat  { font-size: 0.7rem; color: var(--charcoal); background: var(--off); border: 1px solid var(--border); border-radius: 2px; padding: 0.24rem 0.6rem; display: flex; align-items: center; gap: 0.3rem; }
+.pdesc  { font-size: 0.81rem; color: var(--stone); line-height: 1.65; font-weight: 300; }
+
+.pfoot   { padding: 1.1rem 1.6rem; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; background: var(--off); }
+.pstatus { font-size: 0.7rem; color: var(--stone); display: flex; align-items: center; gap: 0.38rem; }
+.sdot    { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+.penq       { background: var(--ink); color: var(--white); border: none; padding: 0.52rem 1.2rem; border-radius: var(--radius-sm); font-family: var(--font-body); font-size: 0.7rem; letter-spacing: 0.09em; text-transform: uppercase; cursor: pointer; transition: background 0.18s; }
+.penq:hover { background: var(--charcoal); }
+
+/* ─── NO RESULTS ─────────────────────────────────────────────────────────────── */
+.noresult    { grid-column: 1 / -1; text-align: center; padding: 5rem 2rem; }
+.noresult h3 { font-family: var(--font-display); font-size: 1.75rem; color: var(--ink); margin-bottom: 0.7rem; font-weight: 400; }
+.noresult p  { font-size: 0.88rem; color: var(--stone); font-weight: 300; }
+
+/* ─── RESPONSIVE ─────────────────────────────────────────────────────────────── */
+@media (max-width: 1000px) {
+  .list-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 700px) {
+  .list-grid  { grid-template-columns: 1fr; }
+  .fbar-inner { gap: 0.4rem; }
+}

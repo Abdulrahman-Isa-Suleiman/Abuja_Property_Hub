@@ -1,0 +1,31 @@
+/* ─── CONTACT HERO ───────────────────────────────────────────────────────────── */
+.cont-hero    { padding: 5.5rem 2rem 3.5rem; text-align: center; background: var(--white); border-bottom: 1px solid var(--border); }
+.cont-hero h1 { font-family: var(--font-display); font-size: clamp(2.6rem, 4.5vw, 4rem); font-weight: 400; color: var(--ink); letter-spacing: -0.015em; margin-bottom: 0.9rem; line-height: 1.1; }
+.cont-hero p  { font-size: 0.97rem; color: var(--stone); font-weight: 300; max-width: 420px; margin: 0 auto; line-height: 1.75; }
+
+/* ─── CONTACT MAIN ───────────────────────────────────────────────────────────── */
+.cont-main { padding: 3.5rem 2rem 6rem; background: var(--off); }
+.cont-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 3.5rem; max-width: 980px; margin: 0 auto; align-items: start; }
+
+/* ─── CONTACT INFO (left column) ─────────────────────────────────────────────── */
+.cinfo      { display: flex; flex-direction: column; gap: 1.8rem; }
+.cinfo-item { display: flex; gap: 1.1rem; align-items: flex-start; }
+.cinfo-icon { width: 44px; height: 44px; background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--accent); }
+.cinfo-text h4 { font-size: 0.68rem; letter-spacing: 0.13em; text-transform: uppercase; color: var(--charcoal); font-weight: 500; margin-bottom: 0.3rem; }
+.cinfo-text p  { font-size: 0.85rem; color: var(--stone); line-height: 1.6; font-weight: 300; }
+.cinfo-heading { font-family: var(--font-display); font-size: 1.6rem; font-weight: 400; color: var(--ink); line-height: 1.22; }
+
+/* ─── CONTACT FORM CARD (right column) ───────────────────────────────────────── */
+.cform-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: 0 18px 60px rgba(28, 28, 28, 0.06); overflow: hidden; }
+.cform-head    { padding: 1.8rem 2.4rem 1.6rem; border-bottom: 1px solid var(--border); background: var(--off); }
+.cform-head h3 { font-family: var(--font-display); font-size: 1.6rem; font-weight: 400; color: var(--ink); }
+.cform-head p  { font-size: 0.83rem; color: var(--stone); font-weight: 300; margin-top: 0.28rem; }
+.cform-body    { padding: 1.8rem 2.4rem 2.4rem; background: var(--white); }
+
+/* ─── RESPONSIVE ─────────────────────────────────────────────────────────────── */
+@media (max-width: 1000px) {
+  .cont-grid { grid-template-columns: 1fr; gap: 2rem; }
+}
+@media (max-width: 700px) {
+  .cform-head, .cform-body { padding-left: 1.4rem; padding-right: 1.4rem; }
+}
