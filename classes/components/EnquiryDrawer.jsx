@@ -99,6 +99,13 @@ export function EnquiryDrawer({ property, onClose }) {
               <div className="drawer-feats">
                 {property.features.map(f => <span className="drawer-feat" key={f}><Icon.Check size={8} />{f}</span>)}
               </div>
+
+              {/* Size */}
+              <div className="drawer-size">
+                <Icon.Ruler size={13} />
+                <span>{property.sqm} sqm {property.type === "Land" ? "plot size" : "floor area"}</span>
+              </div>
+
               <p className="drawer-desc">{property.desc}</p>
 
               <div className="drawer-divider" />

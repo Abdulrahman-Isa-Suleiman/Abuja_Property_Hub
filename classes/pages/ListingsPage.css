@@ -30,7 +30,8 @@
 .pbody  { padding: 1.4rem 1.6rem 1.3rem; }
 .ptype  { font-size: 0.64rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); font-weight: 500; margin-bottom: 0.45rem; }
 .ptitle { font-family: var(--font-display); font-size: 1.25rem; font-weight: 500; color: var(--ink); line-height: 1.22; margin-bottom: 0.28rem; }
-.ploc   { font-size: 0.77rem; color: var(--stone); margin-bottom: 0.9rem; display: flex; align-items: center; gap: 0.3rem; }
+.ploc   { font-size: 0.77rem; color: var(--stone); margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.3rem; }
+.psize  { font-size: 0.74rem; color: var(--stone); margin-bottom: 0.9rem; display: flex; align-items: center; gap: 0.3rem; letter-spacing: 0.01em; }
 .pprice { font-family: var(--font-display); font-size: 1.35rem; font-weight: 500; color: var(--ink); margin-bottom: 0.9rem; line-height: 1; }
 .pprice span { font-size: 0.75rem; font-family: var(--font-body); color: var(--stone); font-weight: 300; letter-spacing: 0.04em; }
 .pdiv   { height: 1px; background: var(--border); margin: 0.9rem 0; }

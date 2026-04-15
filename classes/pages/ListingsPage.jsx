@@ -78,6 +78,7 @@ export function ListingsPage({ setPage }) {
                   <div className="ptype">{p.type}</div>
                   <div className="ptitle">{p.title}</div>
                   <div className="ploc"><Icon.MapPin size={10} />{p.area}, {p.city}</div>
+                  <div className="psize"><Icon.Ruler size={11} />{p.sqm} sqm</div>
                   <div className="pprice">{p.price} <span>{p.period}</span></div>
                   <div className="pfeats">
                     {p.features.map(f => <span className="pfeat" key={f}><Icon.Check size={8} />{f}</span>)}
