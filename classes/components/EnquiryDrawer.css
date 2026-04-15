@@ -34,6 +34,35 @@
 .drawer-desc    { font-size: 0.83rem; color: var(--stone); line-height: 1.7; font-weight: 300; margin-bottom: 1.4rem; }
 .drawer-divider { height: 1px; background: var(--border); margin: 1.4rem 0; }
 
+/* ─── SCHEDULE A SHOWING ─────────────────────────────────────────────────────── */
+.showing-block { margin-bottom: 1.4rem; }
+
+.showing-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 0.75rem; }
+
+.showing-field { display: flex; flex-direction: column; gap: 0.38rem; }
+.showing-field label { font-size: 0.63rem; letter-spacing: 0.13em; text-transform: uppercase; color: var(--charcoal); font-weight: 500; }
+
+.showing-input {
+  border: 1.5px solid var(--border); border-radius: var(--radius-sm);
+  background: var(--white); font-family: var(--font-body); font-size: 0.86rem;
+  color: var(--ink); padding: 0.68rem 0.85rem;
+  transition: border-color 0.2s, box-shadow 0.2s; outline: none; width: 100%;
+  cursor: pointer;
+}
+.showing-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(139, 115, 85, 0.08); }
+.showing-input::-webkit-calendar-picker-indicator { opacity: 0.5; cursor: pointer; }
+
+/* Confirmation strip — appears once both date + time are chosen */
+.showing-confirm {
+  display: flex; align-items: center; gap: 0.7rem;
+  background: var(--accent-lt); border: 1px solid rgba(139, 115, 85, 0.25);
+  border-radius: var(--radius-sm); padding: 0.75rem 1rem;
+  animation: fadeUp 0.22s ease;
+}
+.showing-confirm-icon { color: var(--accent); flex-shrink: 0; display: flex; }
+.showing-confirm-text { font-size: 0.78rem; color: var(--charcoal); line-height: 1.45; }
+.showing-confirm-text strong { color: var(--ink); font-weight: 500; }
+
 /* ─── DRAWER FORM ────────────────────────────────────────────────────────────── */
 .drawer-form-label { font-size: 0.65rem; letter-spacing: 0.13em; text-transform: uppercase; color: var(--charcoal); font-weight: 500; margin-bottom: 0.38rem; display: block; }
 
