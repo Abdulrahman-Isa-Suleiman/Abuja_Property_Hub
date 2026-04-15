@@ -1,9 +1,10 @@
-import { useState }       from "react";
+import { useState } from "react";
 import "./ListingsPage.css";
-import { Icon }            from "../components/Icons";
-import { EnquiryDrawer }   from "../components/EnquiryDrawer";
+import { Icon }          from "../components/Icons";
+import { EnquiryDrawer } from "../components/EnquiryDrawer";
 import { LISTINGS, PROPERTY_TYPES, TENURE_OPTIONS } from "../data/constants";
 
+// ─── PROPERTY CARD SVG ────────────────────────────────────────────────────────
 function PropertyCardSVG({ type }) {
   const isLand  = type === "Land";
   const isLarge = type === "Villa" || type === "Duplex";
@@ -18,11 +19,74 @@ function PropertyCardSVG({ type }) {
   );
 }
 
-export function ListingsPage({ setPage }) {
-  const [typeFilter,   setTypeFilter]   = useState(["All"]);
-  const [tenureFilter, setTenureFilter] = useState("All");
-  const [enquiryProp,  setEnquiryProp]  = useState(null);
+// ─── SHORTLIST MODAL ──────────────────────────────────────────────────────────
+function ShortlistModal({ saved, onUnsave, onEnquire, onClose }) {
+  const savedListings = LISTINGS.filter(l => saved.has(l.id));
 
+  return (
+    <>
+      <div className="sl-overlay" onClick={onClose} />
+      <div className="sl-modal">
+        <div className="sl-modal-head">
+          <div>
+            <div className="sl-modal-eyebrow">Saved Properties</div>
+            <h2 className="sl-modal-title">Your Shortlist</h2>
+          </div>
+          <button className="sl-modal-close" onClick={onClose}><Icon.Close size={13} /></button>
+        </div>
+
+        <div className="sl-modal-body">
+          {savedListings.length === 0 ? (
+            <div className="sl-empty">
+              <div className="sl-empty-icon"><Icon.StarEmpty size={28} /></div>
+              <p>No saved properties yet.<br />Click the star on any listing to save it here.</p>
+            </div>
+          ) : (
+            <div className="sl-grid">
+              {savedListings.map(p => (
+                <div className="sl-card" key={p.id}>
+                  {/* Mini image */}
+                  <div className="sl-card-img" style={{ background: p.gradient }}>
+                    <div className={`sl-card-badge${p.tenure === "Rent" ? " rent" : ""}`}>{p.tenure}</div>
+                    <button className="sl-unsave" onClick={() => onUnsave(p.id)} title="Remove from shortlist">
+                      <Icon.StarFilled size={14} />
+                    </button>
+                  </div>
+                  {/* Mini body */}
+                  <div className="sl-card-body">
+                    <div className="sl-card-type">{p.type}</div>
+                    <div className="sl-card-title">{p.title}</div>
+                    <div className="sl-card-loc"><Icon.MapPin size={9} />{p.area}, {p.city}</div>
+                    <div className="sl-card-size"><Icon.Ruler size={10} />{p.sqm} sqm</div>
+                    <div className="sl-card-price">{p.price}<span> {p.period}</span></div>
+                  </div>
+                  {/* Mini footer */}
+                  <div className="sl-card-foot">
+                    <div className="sl-card-status">
+                      <span className="sdot" style={{ background: p.available ? "#5A8A5A" : "#B08050" }} />
+                      {p.available ? "Available" : "Under Offer"}
+                    </div>
+                    <button className="sl-enquire" onClick={() => { onClose(); onEnquire(p); }}>Enquire</button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    </>
+  );
+}
+
+// ─── LISTINGS PAGE ────────────────────────────────────────────────────────────
+export function ListingsPage({ setPage }) {
+  const [typeFilter,    setTypeFilter]    = useState(["All"]);
+  const [tenureFilter,  setTenureFilter]  = useState("All");
+  const [enquiryProp,   setEnquiryProp]   = useState(null);
+  const [saved,         setSaved]         = useState(new Set());   // Set of saved property ids
+  const [showShortlist, setShowShortlist] = useState(false);
+
+  // ── Filter logic ──────────────────────────────────────────────────────────
   const handleTypeToggle = (type) => {
     if (type === "All") { setTypeFilter(["All"]); return; }
     let next = typeFilter.filter(t => t !== "All");
@@ -35,15 +99,50 @@ export function ListingsPage({ setPage }) {
     (tenureFilter === "All"     || l.tenure === tenureFilter)
   );
 
+  // ── Favourites logic ──────────────────────────────────────────────────────
+  const toggleSave = (id) => {
+    setSaved(prev => {
+      const next = new Set(prev);
+      next.has(id) ? next.delete(id) : next.add(id);
+      return next;
+    });
+  };
+
+  const clearAll = () => setSaved(new Set());
+
   return (
     <div className="page">
 
+      {/* ── HERO ──────────────────────────────────────────────────────────── */}
       <section className="list-hero">
         <p className="eyebrow a1">Available Properties</p>
         <h1 className="a2">Properties in <em>Abuja</em></h1>
         <p className="a3">Verified listings sourced directly from our trusted agent network. Prices shown are starting figures.</p>
       </section>
 
+      {/* ── SHORTLIST BANNER ──────────────────────────────────────────────── */}
+      {saved.size > 0 && (
+        <div className="shortlist-banner">
+          <div className="shortlist-banner-inner">
+            <div className="shortlist-banner-left">
+              <span className="shortlist-banner-icon"><Icon.StarFilled size={14} /></span>
+              <span className="shortlist-banner-text">
+                <strong>{saved.size}</strong> {saved.size === 1 ? "property" : "properties"} saved to your shortlist
+              </span>
+            </div>
+            <div className="shortlist-banner-actions">
+              <button className="shortlist-view-btn" onClick={() => setShowShortlist(true)}>
+                View Shortlist
+              </button>
+              <button className="shortlist-clear-btn" onClick={clearAll}>
+                Clear all
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ── FILTER BAR ────────────────────────────────────────────────────── */}
       <div className="fbar">
         <div className="fbar-inner">
           <span className="flbl">Type:</span>
@@ -59,6 +158,7 @@ export function ListingsPage({ setPage }) {
         </div>
       </div>
 
+      {/* ── PROPERTY GRID ─────────────────────────────────────────────────── */}
       <section className="list-sec">
         <div className="inner">
           <div className="list-grid">
@@ -67,38 +167,50 @@ export function ListingsPage({ setPage }) {
                 <h3>No properties found</h3>
                 <p>Try adjusting your filters or submit a request and we'll source options for you.</p>
               </div>
-            ) : filtered.map(p => (
-              <div className="pcard" key={p.id}>
-                <div className="pimg">
-                  <div className="pimg-bg" style={{ background: p.gradient }} />
-                  <PropertyCardSVG type={p.type} />
-                  <div className={`pbadge${p.tenure === "Rent" ? " rent" : ""}`}>{p.tenure}</div>
-                </div>
-                <div className="pbody">
-                  <div className="ptype">{p.type}</div>
-                  <div className="ptitle">{p.title}</div>
-                  <div className="ploc"><Icon.MapPin size={10} />{p.area}, {p.city}</div>
-                  <div className="psize"><Icon.Ruler size={11} />{p.sqm} sqm</div>
-                  <div className="pprice">{p.price} <span>{p.period}</span></div>
-                  <div className="pfeats">
-                    {p.features.map(f => <span className="pfeat" key={f}><Icon.Check size={8} />{f}</span>)}
+            ) : filtered.map(p => {
+              const isSaved = saved.has(p.id);
+              return (
+                <div className="pcard" key={p.id}>
+                  <div className="pimg">
+                    <div className="pimg-bg" style={{ background: p.gradient }} />
+                    <PropertyCardSVG type={p.type} />
+                    <div className={`pbadge${p.tenure === "Rent" ? " rent" : ""}`}>{p.tenure}</div>
+                    {/* ── STAR / SAVE BUTTON ── */}
+                    <button
+                      className={`pstar${isSaved ? " saved" : ""}`}
+                      onClick={() => toggleSave(p.id)}
+                      title={isSaved ? "Remove from shortlist" : "Save to shortlist"}
+                    >
+                      {isSaved ? <Icon.StarFilled size={15} /> : <Icon.StarEmpty size={15} />}
+                    </button>
                   </div>
-                  <div className="pdiv" />
-                  <p className="pdesc">{p.desc}</p>
-                </div>
-                <div className="pfoot">
-                  <div className="pstatus">
-                    <span className="sdot" style={{ background: p.available ? "#5A8A5A" : "#B08050" }} />
-                    {p.available ? "Available Now" : "Under Offer"}
+                  <div className="pbody">
+                    <div className="ptype">{p.type}</div>
+                    <div className="ptitle">{p.title}</div>
+                    <div className="ploc"><Icon.MapPin size={10} />{p.area}, {p.city}</div>
+                    <div className="psize"><Icon.Ruler size={11} />{p.sqm} sqm</div>
+                    <div className="pprice">{p.price} <span>{p.period}</span></div>
+                    <div className="pfeats">
+                      {p.features.map(f => <span className="pfeat" key={f}><Icon.Check size={8} />{f}</span>)}
+                    </div>
+                    <div className="pdiv" />
+                    <p className="pdesc">{p.desc}</p>
                   </div>
-                  <button className="penq" onClick={() => setEnquiryProp(p)}>Enquire</button>
+                  <div className="pfoot">
+                    <div className="pstatus">
+                      <span className="sdot" style={{ background: p.available ? "#5A8A5A" : "#B08050" }} />
+                      {p.available ? "Available Now" : "Under Offer"}
+                    </div>
+                    <button className="penq" onClick={() => setEnquiryProp(p)}>Enquire</button>
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
 
+      {/* ── CTA SECTION ───────────────────────────────────────────────────── */}
       <section className="listings-cta">
         <p className="eyebrow">Can't find what you need?</p>
         <h2 className="sec-title" style={{ marginBottom: "0.9rem" }}>Submit a custom request</h2>
@@ -109,6 +221,15 @@ export function ListingsPage({ setPage }) {
         </button>
       </section>
 
+      {/* ── MODALS / DRAWERS ──────────────────────────────────────────────── */}
+      {showShortlist && (
+        <ShortlistModal
+          saved={saved}
+          onUnsave={toggleSave}
+          onEnquire={setEnquiryProp}
+          onClose={() => setShowShortlist(false)}
+        />
+      )}
       {enquiryProp && <EnquiryDrawer property={enquiryProp} onClose={() => setEnquiryProp(null)} />}
     </div>
   );
