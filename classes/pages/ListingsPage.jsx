@@ -2,7 +2,7 @@ import { useState } from "react";
 import "./ListingsPage.css";
 import { Icon }          from "../components/Icons";
 import { EnquiryDrawer } from "../components/EnquiryDrawer";
-import { LISTINGS, PROPERTY_TYPES, TENURE_OPTIONS } from "../data/constants";
+import { LISTINGS, PROPERTY_TYPES, TENURE_OPTIONS, LOCATION_OPTIONS } from "../data/constants";
 
 // ─── PROPERTY CARD SVG ────────────────────────────────────────────────────────
 function PropertyCardSVG({ type }) {
@@ -79,11 +79,11 @@ function ShortlistModal({ saved, onUnsave, onEnquire, onClose }) {
 }
 
 // ─── LISTINGS PAGE ────────────────────────────────────────────────────────────
-export function ListingsPage({ setPage }) {
+export function ListingsPage({ setPage, locationFilter = "All", setLocationFilter = () => {} }) {
   const [typeFilter,    setTypeFilter]    = useState(["All"]);
   const [tenureFilter,  setTenureFilter]  = useState("All");
   const [enquiryProp,   setEnquiryProp]   = useState(null);
-  const [saved,         setSaved]         = useState(new Set());   // Set of saved property ids
+  const [saved,         setSaved]         = useState(new Set());
   const [showShortlist, setShowShortlist] = useState(false);
 
   // ── Filter logic ──────────────────────────────────────────────────────────
@@ -95,8 +95,9 @@ export function ListingsPage({ setPage }) {
   };
 
   const filtered = LISTINGS.filter(l =>
-    (typeFilter.includes("All") || typeFilter.includes(l.type)) &&
-    (tenureFilter === "All"     || l.tenure === tenureFilter)
+    (typeFilter.includes("All")  || typeFilter.includes(l.type))  &&
+    (tenureFilter === "All"      || l.tenure === tenureFilter)     &&
+    (locationFilter === "All"    || l.area === locationFilter)
   );
 
   // ── Favourites logic ──────────────────────────────────────────────────────
@@ -145,6 +146,7 @@ export function ListingsPage({ setPage }) {
       {/* ── FILTER BAR ────────────────────────────────────────────────────── */}
       <div className="fbar">
         <div className="fbar-inner">
+          {/* Row 1: Type + Tenure + count */}
           <span className="flbl">Type:</span>
           {PROPERTY_TYPES.map(f => (
             <button key={f} className={`fchip${typeFilter.includes(f) ? " on" : ""}`} onClick={() => handleTypeToggle(f)}>{f}</button>
@@ -155,6 +157,13 @@ export function ListingsPage({ setPage }) {
             <button key={f} className={`fchip${tenureFilter === f ? " on" : ""}`} onClick={() => setTenureFilter(f)}>{f}</button>
           ))}
           <span className="fcount">{filtered.length} propert{filtered.length === 1 ? "y" : "ies"}</span>
+        </div>
+        {/* Row 2: Location */}
+        <div className="fbar-inner fbar-location-row">
+          <span className="flbl">Location:</span>
+          {LOCATION_OPTIONS.map(f => (
+            <button key={f} className={`fchip${locationFilter === f ? " on" : ""}`} onClick={() => setLocationFilter(f)}>{f}</button>
+          ))}
         </div>
       </div>
 

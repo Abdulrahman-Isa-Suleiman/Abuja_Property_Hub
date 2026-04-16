@@ -9,25 +9,32 @@ import { Navbar, Footer } from "../classes/components/NavFooter";
 // Pages
 import { HomePage }    from "../classes/pages/HomePage";
 import { AboutPage }   from "../classes/pages/AboutPage";
+import { LocationsPage } from "../classes/pages/LocationsPage";
 import { ListingsPage } from "../classes/pages/ListingsPage";
 import { ContactPage } from "../classes/pages/ContactPage";
 
 // ─── ROOT ─────────────────────────────────────────────────────────────────────
-// Single source of routing. To add a new page:
-//   1. Create src/pages/NewPage.css + NewPage.jsx
-//   2. Import it here
-//   3. Add a case below
-//   4. Add its link to src/data/constants.jsx → NAV_LINKS
+// locationFilter is lifted here so LocationsPage can pre-set it before
+// navigating to ListingsPage — giving "Browse X Listings →" its filter effect.
 export default function App() {
-  const [page, setPage] = useState("home");
+  const [page,           setPage]           = useState("home");
+  const [locationFilter, setLocationFilter] = useState("All");
+
+  // Navigate to listings pre-filtered by a specific area name
+  const browseLocation = (areaName) => {
+    setLocationFilter(areaName);
+    setPage("listings");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   const renderPage = () => {
     switch (page) {
-      case "home":     return <HomePage     setPage={setPage} />;
-      case "about":    return <AboutPage    setPage={setPage} />;
-      case "listings": return <ListingsPage setPage={setPage} />;
-      case "contact":  return <ContactPage />;
-      default:         return <HomePage     setPage={setPage} />;
+      case "home":      return <HomePage      setPage={setPage} />;
+      case "about":     return <AboutPage     setPage={setPage} />;
+      case "listings":  return <ListingsPage  setPage={setPage} locationFilter={locationFilter} setLocationFilter={setLocationFilter} />;
+      case "locations": return <LocationsPage setPage={setPage} browseLocation={browseLocation} />;
+      case "contact":   return <ContactPage />;
+      default:          return <HomePage      setPage={setPage} />;
     }
   };
 

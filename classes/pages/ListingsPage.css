@@ -5,8 +5,9 @@
 .list-hero p  { font-size: 0.89rem; color: var(--stone); font-weight: 300; }
 
 /* ─── FILTER BAR ─────────────────────────────────────────────────────────────── */
-.fbar       { background: var(--white); border-bottom: 1px solid var(--border); padding: 1.3rem 2rem; position: sticky; top: 70px; z-index: 100; }
-.fbar-inner { max-width: 1160px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; gap: 0.7rem; }
+.fbar            { background: var(--white); border-bottom: 1px solid var(--border); padding: 1rem 2rem; position: sticky; top: 70px; z-index: 100; display: flex; flex-direction: column; gap: 0.6rem; }
+.fbar-inner      { max-width: 1160px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; gap: 0.7rem; width: 100%; }
+.fbar-location-row { padding-top: 0.55rem; border-top: 1px solid var(--border); }
 .flbl       { font-size: 0.67rem; letter-spacing: 0.13em; text-transform: uppercase; color: var(--stone); font-weight: 500; margin-right: 0.1rem; }
 .fchip       { font-size: 0.74rem; letter-spacing: 0.05em; padding: 0.42rem 0.95rem; border: 1px solid var(--border); border-radius: var(--radius-sm); background: transparent; color: var(--charcoal); cursor: pointer; font-family: var(--font-body); transition: all 0.18s; white-space: nowrap; }
 .fchip:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-lt); }

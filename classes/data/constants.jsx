@@ -139,8 +139,9 @@ export const LISTINGS = [
 ];
 
 // ─── FILTER OPTIONS ───────────────────────────────────────────────────────────
-export const PROPERTY_TYPES = ["All", "Apartment", "House", "Duplex", "Villa", "Self-Contained", "Land"];
-export const TENURE_OPTIONS  = ["All", "Rent", "Buy"];
+export const PROPERTY_TYPES   = ["All", "Apartment", "House", "Duplex", "Villa", "Self-Contained", "Land"];
+export const TENURE_OPTIONS   = ["All", "Rent", "Buy"];
+export const LOCATION_OPTIONS = ["All", "Gwarinpa", "Wuse 2", "Maitama", "Jabi", "Lugbe", "Dutse", "Galadimawa", "Kuje", "Kubwa"];
 
 // ─── PRICE SLIDER RANGES ──────────────────────────────────────────────────────
 export const TENURE_PRICE_RANGES = {
@@ -200,11 +201,142 @@ export const CONTACT_INFO_ITEMS = [
 
 // ─── NAV LINKS ────────────────────────────────────────────────────────────────
 export const NAV_LINKS = [
-  { id: "home",     label: "Home" },
-  { id: "listings", label: "Properties" },
-  { id: "about",    label: "About" },
-  { id: "contact",  label: "Contact" },
+  { id: "home",      label: "Home" },
+  { id: "listings",  label: "Properties" },
+  { id: "locations", label: "Locations" },
+  { id: "about",     label: "About" },
+  { id: "contact",   label: "Contact" },
 ];
 
 // ─── FOOTER LOCATION LINKS ────────────────────────────────────────────────────
-export const FOOTER_LOCATION_LINKS = ["Gwarinpa", "Wuse 2", "Lugbe", "Maitama", "Jabi", "Kubwa"];
+export const FOOTER_LOCATION_LINKS = ["Maitama", "Wuse 2", "Garki", "Jabi", "Gwarinpa", "Asokoro"];
+
+// ─── ABUJA DISTRICT GUIDES ────────────────────────────────────────────────────
+export const DISTRICTS = [
+  {
+    id: "maitama",
+    name: "Maitama",
+    tagline: "Abuja's most prestigious address",
+    gradient: "linear-gradient(135deg,#D8D0C8,#C4BCAF)",
+    iconKey: "Diamond",
+    desc: "Maitama is the crown jewel of Abuja's residential districts. Home to ambassadors, top government officials, and captains of industry, it offers wide, tree-lined boulevards, world-class restaurants, and some of the city's finest architecture. Properties here command a premium but deliver unmatched prestige and security.",
+    stats: [
+      { label: "Avg Rent (3-bed)", value: "₦8M–₦15M/yr" },
+      { label: "Avg Buy (5-bed)", value: "₦250M–₦500M" },
+      { label: "Property Types", value: "Villas, Duplexes" },
+      { label: "Best For", value: "Executives, Diplomats" },
+    ],
+  },
+  {
+    id: "wuse2",
+    name: "Wuse 2",
+    tagline: "The beating heart of Abuja business",
+    gradient: "linear-gradient(135deg,#DCDACE,#C8C4BA)",
+    iconKey: "Building",
+    desc: "Wuse 2 is Abuja's most commercially vibrant neighbourhood, blending upscale residential living with the city's densest concentration of banks, embassies, restaurants, and boutique shops. It's the go-to district for professionals who want to live close to work without sacrificing quality of life. Short-let demand is consistently high.",
+    stats: [
+      { label: "Avg Rent (3-bed)", value: "₦5M–₦9M/yr" },
+      { label: "Avg Buy (flat)", value: "₦40M–₦120M" },
+      { label: "Property Types", value: "Apts, Duplexes" },
+      { label: "Best For", value: "Professionals, Investors" },
+    ],
+  },
+  {
+    id: "garki",
+    name: "Garki",
+    tagline: "Historic core, central convenience",
+    gradient: "linear-gradient(135deg,#E0D8CE,#CCC4BA)",
+    iconKey: "MapPin",
+    desc: "Garki is one of Abuja's oldest and most centrally located districts, divided into Areas 1 through 11. It hosts key government ministries, major hospitals, and some of the city's busiest commercial corridors. A great choice for those who need fast access to the CBD. Rents are more competitive than neighbouring Maitama or Wuse 2.",
+    stats: [
+      { label: "Avg Rent (3-bed)", value: "₦3M–₦6M/yr" },
+      { label: "Avg Buy (plot)", value: "₦25M–₦80M" },
+      { label: "Property Types", value: "Flats, Offices, Land" },
+      { label: "Best For", value: "Civil Servants, SMEs" },
+    ],
+  },
+  {
+    id: "jabi",
+    name: "Jabi",
+    tagline: "Lakeside living, modern amenities",
+    gradient: "linear-gradient(135deg,#E2DAD2,#CEC8C0)",
+    iconKey: "Droplet",
+    desc: "Jabi has emerged as one of Abuja's most desirable mid-to-upscale residential areas, anchored by the scenic Jabi Lake Mall and its waterside promenade. The district offers a relaxed, almost resort-like atmosphere with excellent access to supermarkets, gyms, cinemas, and dining. Newly developed estates here are popular with young professionals and returning diaspora.",
+    stats: [
+      { label: "Avg Rent (2-bed)", value: "₦2.5M–₦5M/yr" },
+      { label: "Avg Buy (2-bed)", value: "₦35M–₦80M" },
+      { label: "Property Types", value: "Apts, Terraces" },
+      { label: "Best For", value: "Young Professionals, Diaspora" },
+    ],
+  },
+  {
+    id: "gwarinpa",
+    name: "Gwarinpa",
+    tagline: "Africa's largest housing estate",
+    gradient: "linear-gradient(135deg,#EAE4DE,#D8D0C8)",
+    iconKey: "Home",
+    desc: "Gwarinpa is Abuja's most densely populated residential district and is often cited as the largest purpose-built housing estate in Africa. It offers a wide variety of property options — from modest self-contained flats to generous 4-bedroom duplexes — at price points that are accessible to a broader market. Strong rental demand makes it a reliable investment zone.",
+    stats: [
+      { label: "Avg Rent (3-bed)", value: "₦1.8M–₦4M/yr" },
+      { label: "Avg Buy (duplex)", value: "₦30M–₦65M" },
+      { label: "Property Types", value: "Duplexes, Flats, Self-con" },
+      { label: "Best For", value: "Families, First-time Buyers" },
+    ],
+  },
+  {
+    id: "katampe",
+    name: "Katampe",
+    tagline: "Elevated views, growing prestige",
+    gradient: "linear-gradient(135deg,#D8D0C8,#C6BEB5)",
+    iconKey: "TrendingUp",
+    desc: "Katampe — particularly Katampe Extension — is one of Abuja's fastest-appreciating neighbourhoods. Perched on elevated terrain with sweeping views of the city, it attracts a growing mix of affluent residents, embassies, and international schools. Infrastructure has improved significantly and land values have risen sharply over the past five years, making early entry very rewarding.",
+    stats: [
+      { label: "Avg Rent (4-bed)", value: "₦4M–₦8M/yr" },
+      { label: "Avg Buy (plot)", value: "₦30M–₦90M" },
+      { label: "Property Types", value: "Villas, Land, Duplexes" },
+      { label: "Best For", value: "Investors, Upscale Families" },
+    ],
+  },
+  {
+    id: "asokoro",
+    name: "Asokoro",
+    tagline: "Power, policy, and prestige",
+    gradient: "linear-gradient(135deg,#DAD2CA,#C6C0B8)",
+    iconKey: "Shield",
+    desc: "Asokoro is synonymous with political power in Nigeria — it is home to the Presidential Villa, State House, and numerous top government residences. The neighbourhood is immaculately maintained, heavily secured, and very exclusive. Properties rarely come to market, and when they do, they attract serious buyers. An address in Asokoro carries enormous social and professional weight.",
+    stats: [
+      { label: "Avg Rent (4-bed)", value: "₦7M–₦14M/yr" },
+      { label: "Avg Buy (villa)", value: "₦200M–₦450M" },
+      { label: "Property Types", value: "Villas, Govt Housing" },
+      { label: "Best For", value: "Senior Officials, Executives" },
+    ],
+  },
+  {
+    id: "lifecamp",
+    name: "Life Camp",
+    tagline: "Quiet suburb, strong community feel",
+    gradient: "linear-gradient(135deg,#E4DED8,#D0CAC4)",
+    iconKey: "Leaf",
+    desc: "Life Camp (also written Lifecamp) is a well-planned residential district in Abuja's northern corridor, popular with families who value quieter streets, good schools nearby, and a strong sense of community. It offers a mix of detached houses, semi-detached duplexes, and self-contained units at prices that are more accessible than the city's premium zones, without compromising on liveability.",
+    stats: [
+      { label: "Avg Rent (3-bed)", value: "₦1.5M–₦3.5M/yr" },
+      { label: "Avg Buy (detached)", value: "₦25M–₦55M" },
+      { label: "Property Types", value: "Houses, Duplexes, Flats" },
+      { label: "Best For", value: "Families, Mid-income Buyers" },
+    ],
+  },
+  {
+    id: "utako",
+    name: "Utako",
+    tagline: "Central, connected, and affordable",
+    gradient: "linear-gradient(135deg,#E6E0D8,#D2CCC4)",
+    iconKey: "Zap",
+    desc: "Utako sits at a strategic crossroads between Wuse 2, Jabi, and Maitama, making it one of Abuja's most accessible districts. The area has grown rapidly and now offers a healthy mix of residential apartments, commercial spaces, and eateries. It is particularly popular with young professionals and small business owners who want central access without paying the Wuse 2 premium.",
+    stats: [
+      { label: "Avg Rent (2-bed)", value: "₦1.2M–₦2.8M/yr" },
+      { label: "Avg Buy (flat)", value: "₦18M–₦45M" },
+      { label: "Property Types", value: "Flats, Self-con, Offices" },
+      { label: "Best For", value: "Young Professionals, Startups" },
+    ],
+  },
+];

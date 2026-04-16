@@ -68,7 +68,7 @@ export function Footer({ setPage }) {
             <h4>Locations</h4>
             <ul>
               {FOOTER_LOCATION_LINKS.map(loc => (
-                <li key={loc}><button className="fl" onClick={() => go("listings")}>{loc}</button></li>
+                <li key={loc}><button className="fl" onClick={() => go("locations")}>{loc}</button></li>
               ))}
             </ul>
           </div>
