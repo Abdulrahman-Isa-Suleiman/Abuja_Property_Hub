@@ -11,6 +11,7 @@ import { HomePage }    from "../classes/pages/HomePage";
 import { AboutPage }   from "../classes/pages/AboutPage";
 import { LocationsPage } from "../classes/pages/LocationsPage";
 import { ListingsPage } from "../classes/pages/ListingsPage";
+import { BlogPage }      from "../classes/pages/BlogPage";
 import { ContactPage } from "../classes/pages/ContactPage";
 
 // ─── ROOT ─────────────────────────────────────────────────────────────────────
@@ -20,7 +21,6 @@ export default function App() {
   const [page,           setPage]           = useState("home");
   const [locationFilter, setLocationFilter] = useState("All");
 
-  // Navigate to listings pre-filtered by a specific area name
   const browseLocation = (areaName) => {
     setLocationFilter(areaName);
     setPage("listings");
@@ -33,6 +33,7 @@ export default function App() {
       case "about":     return <AboutPage     setPage={setPage} />;
       case "listings":  return <ListingsPage  setPage={setPage} locationFilter={locationFilter} setLocationFilter={setLocationFilter} />;
       case "locations": return <LocationsPage setPage={setPage} browseLocation={browseLocation} />;
+      case "blog":      return <BlogPage      setPage={setPage} />;
       case "contact":   return <ContactPage />;
       default:          return <HomePage      setPage={setPage} />;
     }

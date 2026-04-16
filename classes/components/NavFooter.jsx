@@ -61,6 +61,8 @@ export function Footer({ setPage }) {
             <ul>
               <li><button className="fl" onClick={() => go("home")}>Submit a Request</button></li>
               <li><button className="fl" onClick={() => go("listings")}>Browse Properties</button></li>
+              <li><button className="fl" onClick={() => go("locations")}>Location Guides</button></li>
+              <li><button className="fl" onClick={() => go("blog")}>Blog & Insights</button></li>
               <li><button className="fl" onClick={() => go("about")}>How It Works</button></li>
             </ul>
           </div>
