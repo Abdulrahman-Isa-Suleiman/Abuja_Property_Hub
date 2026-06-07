@@ -5,12 +5,28 @@ import { PriceSlider, RoomsStepper } from "./FormControls";
 import { parseQuery }              from "../utils/helpers";
 
 const BLANK = {
-  propertyType: "", propertyTypeOther: "",
+  propertyType: "", subtype: "",
   location: "",     tenure: "Rent",
   bedrooms: 0,      bathrooms: 0,
+  sizeMin: "",      sizeMax: "",
   details: "",      urgency: "",
   name: "",         phone: "",  email: "",
 };
+
+// Subtype taxonomy
+const SUBTYPES = {
+  "Flat / Apartment": ["Studio / Self-con", "Serviced Apartment", "Terrace Apartment", "Penthouse"],
+  "House":            ["Bungalow", "Duplex", "Terrace", "Semi-detached", "Detached Villa"],
+  "Land":             ["Residential Plot", "Commercial Plot", "Mixed-use Plot", "Agricultural"],
+  "Commercial Space": ["Office", "Shop / Retail", "Warehouse", "Event Space", "Mixed Commercial"],
+};
+
+// Subtypes where rooms don't apply
+const NO_ROOM_SUBTYPES = new Set(["Studio / Self-con"]);
+// Types that show rooms
+const NEEDS_ROOMS = new Set(["Flat / Apartment", "House"]);
+// Types that show size range instead
+const NEEDS_SIZE  = new Set(["Land", "Commercial Space"]);
 
 function extractParsed(p) {
   return {
@@ -34,12 +50,17 @@ export function RequestForm({ initialQuery }) {
 
   const set = (k, v) => { setForm(f => ({ ...f, [k]: v })); setErrors(e => ({ ...e, [k]: "" })); };
 
+  // When type changes, reset subtype and size/room fields
+  const setType = (v) => {
+    setForm(f => ({ ...f, propertyType: v, subtype: "", bedrooms: 0, bathrooms: 0, sizeMin: "", sizeMax: "" }));
+    setErrors(e => ({ ...e, propertyType: "" }));
+  };
+
   const validate = () => {
     const e = {};
-    if (!form.propertyType) e.propertyType = "Please select a property type";
-    if (form.propertyType === "Other" && !form.propertyTypeOther.trim()) e.propertyTypeOther = "Please describe the property type";
-    if (!form.location.trim()) e.location = "Location is required";
-    if (!form.phone.trim())    e.phone    = "Phone number is required";
+    if (!form.propertyType)    e.propertyType = "Please select a property type";
+    if (!form.location.trim()) e.location     = "Location is required";
+    if (!form.phone.trim())    e.phone        = "Phone number is required";
     setErrors(e);
     return !Object.keys(e).length;
   };
@@ -50,7 +71,10 @@ export function RequestForm({ initialQuery }) {
     setTimeout(() => { setLoading(false); setDone(true); }, 2000); // TODO: replace with API call
   };
 
-  const noRooms = ["Land", "Office", "Shop"].includes(form.propertyType);
+  const showRooms   = NEEDS_ROOMS.has(form.propertyType) && !NO_ROOM_SUBTYPES.has(form.subtype);
+  const showSize    = NEEDS_SIZE.has(form.propertyType);
+  const subtypes    = form.propertyType ? SUBTYPES[form.propertyType] : null;
+  const sizeLabel   = form.propertyType === "Land" ? "Plot Size (sqm)" : "Floor Area (sqm)";
 
   if (done) return (
     <div className="confirm">
@@ -70,22 +94,46 @@ export function RequestForm({ initialQuery }) {
       </div>
       <div className="fbody">
 
-        {/* Property type + location */}
-        <div className="frow c2">
+        {/* ── Property Type tiles ── */}
+        <div className="frow c1" style={{ marginBottom: "1rem" }}>
           <div className="ff">
             <label className="flabel">Property Type <span className="freq">*</span></label>
-            <select className={`fselect${errors.propertyType ? " err" : ""}`} value={form.propertyType} onChange={e => set("propertyType", e.target.value)}>
-              <option value="">Select type…</option>
-              {["House","Apartment","Duplex","Villa","Land","Office","Shop","Self-Contained","Other"].map(o => <option key={o}>{o}</option>)}
-            </select>
-            {errors.propertyType && <span className="emsg">{errors.propertyType}</span>}
-            {form.propertyType === "Other" && (
-              <input className={`finput${errors.propertyTypeOther ? " err" : ""}`} style={{ marginTop: "0.5rem" }}
-                placeholder="Describe the property type…" value={form.propertyTypeOther}
-                onChange={e => set("propertyTypeOther", e.target.value)} />
-            )}
-            {errors.propertyTypeOther && <span className="emsg">{errors.propertyTypeOther}</span>}
+            <div className="type-grid">
+              {["Flat / Apartment", "House", "Land", "Commercial Space"].map(t => (
+                <button key={t} className={`type-tile${form.propertyType === t ? " on" : ""}`} onClick={() => setType(t)}>
+                  <span className="type-tile-icon">
+                    {t === "Flat / Apartment" && <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>}
+                    {t === "House"            && <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>}
+                    {t === "Land"             && <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"><path d="M3 20h18"/><path d="M3 20L7 9l5 7 4-9 5 13"/></svg>}
+                    {t === "Commercial Space" && <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"><rect x="2" y="7" width="20" height="14" rx="1"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg>}
+                  </span>
+                  <span className="type-tile-label">{t}</span>
+                </button>
+              ))}
+            </div>
+            {errors.propertyType && <span className="emsg" style={{ marginTop: "0.4rem" }}>{errors.propertyType}</span>}
           </div>
+        </div>
+
+        {/* ── Subtype chips (shown after type selected) ── */}
+        {subtypes && (
+          <div className="frow c1" style={{ marginBottom: "1.2rem" }}>
+            <div className="ff">
+              <label className="flabel">Subtype <span style={{ color: "var(--stone)", textTransform: "none", letterSpacing: 0, fontSize: "0.69rem", fontWeight: 300 }}>(optional)</span></label>
+              <div className="subtype-group">
+                {subtypes.map(s => (
+                  <button key={s} className={`subtype-chip${form.subtype === s ? " on" : ""}`}
+                    onClick={() => set("subtype", form.subtype === s ? "" : s)}>
+                    {s}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ── Location ── */}
+        <div className="frow c1">
           <div className="ff">
             <label className="flabel">Preferred Location <span className="freq">*</span></label>
             <input className={`finput${errors.location ? " err" : ""}`} placeholder="e.g. Garki, Maitama, Wuse, Jabi"
@@ -106,8 +154,8 @@ export function RequestForm({ initialQuery }) {
           </div>
         </div>
 
-        {/* Bedrooms + Bathrooms */}
-        {!noRooms && (
+        {/* ── Bedrooms + Bathrooms (Flat/Apartment or House only, not Studio) ── */}
+        {showRooms && (
           <div className="frow c2">
             <div className="ff">
               <label className="flabel"><Icon.Bed size={12} /> Bedrooms</label>
@@ -116,6 +164,31 @@ export function RequestForm({ initialQuery }) {
             <div className="ff">
               <label className="flabel"><Icon.Bath size={12} /> Bathrooms</label>
               <RoomsStepper value={form.bathrooms} onChange={v => set("bathrooms", v)} min={0} max={8} anyLabel="Any" />
+            </div>
+          </div>
+        )}
+
+        {/* ── Size range (Land or Commercial Space only) ── */}
+        {showSize && (
+          <div className="frow c1">
+            <div className="ff">
+              <label className="flabel">{sizeLabel}</label>
+              <div className="size-range-wrap">
+                <div className="size-range-row">
+                  <div className="size-range-box">
+                    <span className="price-val-label">Min</span>
+                    <input className="size-input" type="number" min={0} placeholder="e.g. 300"
+                      value={form.sizeMin} onChange={e => set("sizeMin", e.target.value)} />
+                  </div>
+                  <div className="size-sep">—</div>
+                  <div className="size-range-box" style={{ textAlign: "right" }}>
+                    <span className="price-val-label">Max</span>
+                    <input className="size-input" type="number" min={0} placeholder="e.g. 2000"
+                      value={form.sizeMax} onChange={e => set("sizeMax", e.target.value)} />
+                  </div>
+                </div>
+                <p className="size-hint">Leave blank if flexible</p>
+              </div>
             </div>
           </div>
         )}

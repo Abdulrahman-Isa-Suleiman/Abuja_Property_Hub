@@ -3,7 +3,8 @@
 export const LISTINGS = [
   {
     id: 1,
-    type: "Apartment",
+    type: "Flat / Apartment",
+    subtype: "Serviced Apartment",
     tenure: "Rent",
     title: "3-Bedroom Serviced Apartment",
     area: "Gwarinpa",
@@ -19,6 +20,7 @@ export const LISTINGS = [
   {
     id: 2,
     type: "Land",
+    subtype: "Residential Plot",
     tenure: "Buy",
     title: "600sqm Dry Residential Plot",
     area: "Lugbe",
@@ -33,7 +35,8 @@ export const LISTINGS = [
   },
   {
     id: 3,
-    type: "Duplex",
+    type: "House",
+    subtype: "Duplex",
     tenure: "Rent",
     title: "4-Bedroom Detached Duplex",
     area: "Wuse 2",
@@ -48,7 +51,8 @@ export const LISTINGS = [
   },
   {
     id: 4,
-    type: "Self-con",
+    type: "Flat / Apartment",
+    subtype: "Studio / Self-con",
     tenure: "Rent",
     title: "Self-Contained Studio Flat",
     area: "Dutse",
@@ -63,7 +67,8 @@ export const LISTINGS = [
   },
   {
     id: 5,
-    type: "Villa",
+    type: "House",
+    subtype: "Detached Villa",
     tenure: "Buy",
     title: "5-Bedroom Luxury Villa",
     area: "Maitama",
@@ -78,7 +83,8 @@ export const LISTINGS = [
   },
   {
     id: 6,
-    type: "Apartment",
+    type: "Flat / Apartment",
+    subtype: "Terrace Apartment",
     tenure: "Buy",
     title: "2-Bedroom Terrace Apartment",
     area: "Jabi",
@@ -94,6 +100,7 @@ export const LISTINGS = [
   {
     id: 7,
     type: "House",
+    subtype: "Bungalow",
     tenure: "Rent",
     title: "3-Bedroom Bungalow",
     area: "Galadimawa",
@@ -109,6 +116,7 @@ export const LISTINGS = [
   {
     id: 8,
     type: "Land",
+    subtype: "Commercial Plot",
     tenure: "Buy",
     title: "1,000sqm Commercial Plot",
     area: "Kuje",
@@ -123,7 +131,8 @@ export const LISTINGS = [
   },
   {
     id: 9,
-    type: "Self-con",
+    type: "Flat / Apartment",
+    subtype: "Studio / Self-con",
     tenure: "Rent",
     title: "Modern Self-Contained Unit",
     area: "Kubwa",
@@ -139,7 +148,7 @@ export const LISTINGS = [
 ];
 
 // ─── FILTER OPTIONS ───────────────────────────────────────────────────────────
-export const PROPERTY_TYPES   = ["All", "Apartment", "House", "Duplex", "Villa", "Self-Contained", "Land"];
+export const PROPERTY_TYPES   = ["All", "Flat / Apartment", "House", "Land", "Commercial Space"];
 export const TENURE_OPTIONS   = ["All", "Rent", "Buy"];
 export const LOCATION_OPTIONS = ["All", "Gwarinpa", "Wuse 2", "Maitama", "Jabi", "Lugbe", "Dutse", "Galadimawa", "Kuje", "Kubwa"];
 
@@ -152,11 +161,11 @@ export const TENURE_PRICE_RANGES = {
 
 // ─── HERO SEARCH TAGS ────────────────────────────────────────────────────────
 export const HERO_SEARCH_TAGS = [
-  "2 bed in Gwarinpa",
+  "3 bed apartment in Gwarinpa",
   "Land in Lugbe",
   "Self-con in Dutse",
+  "House in Maitama",
   "Office in Wuse 2",
-  "Villa in Maitama",
 ];
 
 // ─── HOW IT WORKS STEPS ──────────────────────────────────────────────────────
