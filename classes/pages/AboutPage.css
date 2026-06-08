@@ -24,17 +24,102 @@
 
 /* ─── TEAM ───────────────────────────────────────────────────────────────────── */
 .team-sec  { padding: 6rem 2rem; background: var(--off); }
-.team-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
-.tcard       { border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; background: var(--white); transition: transform 0.28s, box-shadow 0.28s; }
-.tcard:hover { transform: translateY(-4px); box-shadow: 0 14px 44px rgba(28, 28, 28, 0.08); }
-.tav  { height: 190px; display: flex; align-items: center; justify-content: center; }
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 360px));
+  gap: 2rem;
+  justify-content: center;
+}
+
+/* ── Scene wrapper — sets the 3-D context ── */
+.tcard-scene {
+  perspective: 1000px;
+  cursor: pointer;
+  border-radius: var(--radius);
+  /* fixed height so back face has room for the bio */
+  height: 480px;
+}
+
+/* ── The cube itself ── */
+.tcard-cube {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.7s cubic-bezier(0.4, 0.2, 0.2, 1);
+}
+
+.tcard-scene.is-flipped .tcard-cube {
+  transform: rotateY(180deg);
+}
+
+/* ── Shared face styles ── */
+.tcard-face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--white);
+}
+
+/* ── FRONT ── */
+.tcard-front { transform: rotateY(0deg); }
+
+.tav  { height: 350px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
 .tav1 { background: linear-gradient(135deg, #EDE8E2, #DDD5CC); }
 .tav2 { background: linear-gradient(135deg, #E8E2DA, #D4CCBF); }
 .tav3 { background: linear-gradient(135deg, #E2DDD8, #CBC4BB); }
+
+.tav-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+}
+
+/* ── BACK ── */
+.tcard-back { transform: rotateY(180deg); }
+
+.tback-inner {
+  padding: 1.8rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.tbio-wrap {
+  margin-top: 0.8rem;
+  overflow-y: auto;
+  flex: 1;
+  padding-right: 0.3rem;
+}
+
+.tbio-wrap::-webkit-scrollbar { width: 3px; }
+.tbio-wrap::-webkit-scrollbar-track { background: transparent; }
+.tbio-wrap::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+/* ── Shared info styles ── */
 .tinfo { padding: 1.4rem 1.7rem 1.8rem; }
 .tname { font-family: var(--font-display); font-size: 1.2rem; font-weight: 500; color: var(--ink); margin-bottom: 0.2rem; }
 .trole { font-size: 0.72rem; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.75rem; }
-.tbio  { font-size: 0.83rem; color: var(--stone); line-height: 1.65; font-weight: 300; }
+.tbio  { font-size: 0.83rem; color: var(--stone); line-height: 1.65; font-weight: 300; margin-bottom: 0.8rem; }
+.tbio:last-child { margin-bottom: 0; }
+
+.tflip-hint {
+  font-size: 0.7rem;
+  color: var(--accent);
+  letter-spacing: 0.08em;
+  margin-top: auto;
+  padding-top: 0.6rem;
+  opacity: 0.7;
+}
+
+
 
 /* ─── CTA BANNER ─────────────────────────────────────────────────────────────── */
 .about-cta-sec    { padding: 5.5rem 2rem; background: var(--ink); text-align: center; }
@@ -45,8 +130,10 @@
 
 /* ─── RESPONSIVE ─────────────────────────────────────────────────────────────── */
 @media (max-width: 1000px) {
-  .team-grid { grid-template-columns: 1fr 1fr; }
+  .team-grid { grid-template-columns: repeat(2, minmax(0, 360px)); }
 }
 @media (max-width: 700px) {
-  .mv-grid, .vals-grid, .team-grid { grid-template-columns: 1fr; }
+  .mv-grid, .vals-grid { grid-template-columns: 1fr; }
+  .team-grid { grid-template-columns: 1fr; }
+  .tcard-scene { height: 520px; }
 }

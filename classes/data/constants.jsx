@@ -183,11 +183,21 @@ export const TRUST_CARDS = [
   { iconKey: "Lock",    h: "No Hidden Fees",   p: "Our service is free to users. We work with agents on a transparent commission basis." },
 ];
 
+
 // ─── ABOUT — TEAM ─────────────────────────────────────────────────────────────
 export const TEAM_MEMBERS = [
-  { name: "Amina Usman",      role: "Founder & CEO",    cls: "tav1", bio: "Former real estate lawyer with 10 years in Abuja's property sector. Founded PropertyHub after experiencing the market's inefficiencies first-hand." },
-  { name: "Chukwuemeka Eze",  role: "Head of Sourcing", cls: "tav2", bio: "Ex-property consultant with an extensive network of landlords and agents across all of Abuja's major districts and satellite towns." },
-  { name: "Fatima Al-Hassan", role: "Client Relations", cls: "tav3", bio: "Passionate about helping people settle comfortably. Manages all client requests personally and ensures every response is timely and thorough." },
+  { name: "Abdulrahman Suleiman",      
+    role: "Co-Founder, Abuja Property Hub",    
+    cls: "tav1", 
+    bio: ["Abdulrahman Suleiman is a Computer Science graduate of Nile University of Nigeria and co-founder of Abuja Property Hub. His academic training is complemented by practical experience at the Nigerian Communications Commission, where he worked across multiple units within the IT department, engaging with diverse technical challenges in one of Nigeria's foremost regulatory institutions.",
+          "With a background in full-stack development and systems design, Abdulrahman co-built Abuja Property Hub with a clear conviction: that finding property in Abuja should be simple, transparent, and technology-driven."] },
+
+  { name: "Jerome Wutdeajala Jelka ",  
+    role: "Co-Founder, Abuja Property Hub", 
+    cls: "tav2", 
+    bio: ["Jerome Jelka is a Computer Science graduate of Afe Babalola University and co-founder of Abuja Property Hub. A practising IT professional with a background spanning full-stack web development, network engineering, and cybersecurity, Jerome brings both the technical depth and hands-on industry experience needed to build platforms that are robust, secure, and built for real-world use.",
+          "His professional work includes developing enterprise web solutions and IT infrastructure for clients in the Nigerian real estate sector, giving him direct insight into the gaps that Abuja Property Hub was designed to fill. Jerome holds a Cisco CCNA certification and has conducted published research in AI-driven network security — reflecting a broader commitment to technology that is not only functional, but intelligent.",
+          "At Abuja Property Hub, Jerome leads the technical development of the platform, with a focus on delivering a seamless, transparent property search experience for users across Abuja."]},
 ];
 
 // ─── ABOUT — VALUES ───────────────────────────────────────────────────────────

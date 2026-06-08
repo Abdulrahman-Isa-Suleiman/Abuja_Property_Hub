@@ -1,6 +1,58 @@
+import { useState }                    from "react";
 import "./AboutPage.css";
-import { Icon }                      from "../components/Icons";
-import { TEAM_MEMBERS, CORE_VALUES } from "../data/constants";
+import { Icon }                        from "../components/Icons";
+import { TEAM_MEMBERS, CORE_VALUES }   from "../data/constants";
+
+import amir   from "../../src/assets/amir.JPG";
+import jerome  from "../../src/assets/jerome.jpeg";
+
+const PHOTOS = {
+  tav1: amir,
+  tav2: jerome,
+};
+
+function TeamCard({ m }) {
+  const [flipped, setFlipped] = useState(false);
+
+  return (
+    <div
+      className={`tcard-scene ${flipped ? "is-flipped" : ""}`}
+      onClick={() => setFlipped(f => !f)}
+    >
+      <div className="tcard-cube">
+
+        {/* ── FRONT ── */}
+        <div className="tcard-face tcard-front">
+          <div className={`tav ${m.cls}`}>
+            {PHOTOS[m.cls]
+              ? <img src={PHOTOS[m.cls]} alt={m.name} className="tav-photo" />
+              : <Icon.User size={50} />}
+          </div>
+          <div className="tinfo">
+            <div className="tname">{m.name}</div>
+            <div className="trole">{m.role}</div>
+            <div className="tflip-hint">Click to read profile →</div>
+          </div>
+        </div>
+
+        {/* ── BACK ── */}
+        <div className="tcard-face tcard-back">
+          <div className="tback-inner">
+            <div className="tname">{m.name}</div>
+            <div className="trole">{m.role}</div>
+            <div className="tbio-wrap">
+              {m.bio.map((para, i) => (
+                <p className="tbio" key={i}>{para}</p>
+              ))}
+            </div>
+            <div className="tflip-hint">Click to go back ←</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  );
+}
 
 export function AboutPage({ setPage }) {
   const go = (id) => { setPage(id); window.scrollTo({ top: 0, behavior: "smooth" }); };
@@ -56,14 +108,7 @@ export function AboutPage({ setPage }) {
           <p className="sec-sub">A small, dedicated team with deep roots in Abuja's property market.</p>
           <div className="team-grid">
             {TEAM_MEMBERS.map(m => (
-              <div className="tcard" key={m.name}>
-                <div className={`tav ${m.cls}`}><Icon.User size={50} /></div>
-                <div className="tinfo">
-                  <div className="tname">{m.name}</div>
-                  <div className="trole">{m.role}</div>
-                  <p className="tbio">{m.bio}</p>
-                </div>
-              </div>
+              <TeamCard key={m.name} m={m} />
             ))}
           </div>
         </div>
