@@ -48,3 +48,7 @@
 @media (max-width: 600px) {
   .loc-grid { grid-template-columns: 1fr; }
 }
+/* ─── REAL PHOTO DISPLAY (when image_url is set) ─────────────────────────────── */
+.pimg-bg-photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; }
+.sl-card-img { position: relative; overflow: hidden; }
+.sl-card-img-photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; }

@@ -85,6 +85,8 @@ export function Footer({ setPage }) {
         </div>
         <div className="footer-bottom">
           <span>© {new Date().getFullYear()} PropertyHub. All rights reserved.</span>
+<button className="fl" style={{ fontSize: "0.65rem", opacity: 0.3 }} 
+  onClick={() => go("admin")}>Admin</button>
           <span>Made with care for Abuja.</span>
         </div>
       </div>

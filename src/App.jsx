@@ -13,7 +13,7 @@ import { LocationsPage } from "../classes/pages/LocationsPage";
 import { ListingsPage } from "../classes/pages/ListingsPage";
 import { BlogPage }      from "../classes/pages/BlogPage";
 import { ContactPage } from "../classes/pages/ContactPage";
-
+import { AdminPage } from "../classes/pages/AdminPage";
 // ─── ROOT ─────────────────────────────────────────────────────────────────────
 // locationFilter is lifted here so LocationsPage can pre-set it before
 // navigating to ListingsPage — giving "Browse X Listings →" its filter effect.
@@ -35,6 +35,7 @@ export default function App() {
       case "locations": return <LocationsPage setPage={setPage} browseLocation={browseLocation} />;
       case "blog":      return <BlogPage      setPage={setPage} />;
       case "contact":   return <ContactPage />;
+      case "admin": return <AdminPage setPage={setPage} />;
       default:          return <HomePage      setPage={setPage} />;
     }
   };

@@ -1,13 +1,14 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./ListingsPage.css";
 import { Icon }          from "../components/Icons";
 import { EnquiryDrawer } from "../components/EnquiryDrawer";
-import { LISTINGS, PROPERTY_TYPES, TENURE_OPTIONS, LOCATION_OPTIONS } from "../data/constants";
+import { supabase }      from "../utils/supabaseClient";
+import { PROPERTY_TYPES, TENURE_OPTIONS, LOCATION_OPTIONS } from "../data/constants";
 
-// ─── PROPERTY CARD SVG ────────────────────────────────────────────────────────
+// ─── PROPERTY CARD SVG (fallback icon when no photo uploaded) ─────────────────
 function PropertyCardSVG({ type }) {
   const isLand  = type === "Land";
-  const isLarge = type === "Villa" || type === "Duplex";
+  const isLarge = type === "House" || type === "Commercial Space";
   return (
     <svg width="52" height="52" viewBox="0 0 24 24" fill="none"
       stroke="rgba(168,158,148,0.38)" strokeWidth="0.8" strokeLinecap="round"
@@ -19,9 +20,22 @@ function PropertyCardSVG({ type }) {
   );
 }
 
+// ─── PROPERTY IMAGE (real photo if available, else gradient + icon) ──────────
+function PropertyImage({ p, className = "pimg-bg" }) {
+  if (p.image_url) {
+    return <img className={`${className}-photo`} src={p.image_url} alt={p.title} />;
+  }
+  return (
+    <>
+      <div className={className} style={{ background: p.gradient }} />
+      <PropertyCardSVG type={p.type} />
+    </>
+  );
+}
+
 // ─── SHORTLIST MODAL ──────────────────────────────────────────────────────────
-function ShortlistModal({ saved, onUnsave, onEnquire, onClose }) {
-  const savedListings = LISTINGS.filter(l => saved.has(l.id));
+function ShortlistModal({ listings, saved, onUnsave, onEnquire, onClose }) {
+  const savedListings = listings.filter(l => saved.has(l.id));
 
   return (
     <>
@@ -46,7 +60,8 @@ function ShortlistModal({ saved, onUnsave, onEnquire, onClose }) {
               {savedListings.map(p => (
                 <div className="sl-card" key={p.id}>
                   {/* Mini image */}
-                  <div className="sl-card-img" style={{ background: p.gradient }}>
+                  <div className="sl-card-img" style={p.image_url ? {} : { background: p.gradient }}>
+                    {p.image_url && <img className="sl-card-img-photo" src={p.image_url} alt={p.title} />}
                     <div className={`sl-card-badge${p.tenure === "Rent" ? " rent" : ""}`}>{p.tenure}</div>
                     <button className="sl-unsave" onClick={() => onUnsave(p.id)} title="Remove from shortlist">
                       <Icon.StarFilled size={14} />
@@ -80,11 +95,26 @@ function ShortlistModal({ saved, onUnsave, onEnquire, onClose }) {
 
 // ─── LISTINGS PAGE ────────────────────────────────────────────────────────────
 export function ListingsPage({ setPage, locationFilter = "All", setLocationFilter = () => {} }) {
+  const [listings,      setListings]      = useState([]);
+  const [loading,       setLoading]       = useState(true);
   const [typeFilter,    setTypeFilter]    = useState(["All"]);
   const [tenureFilter,  setTenureFilter]  = useState("All");
   const [enquiryProp,   setEnquiryProp]   = useState(null);
   const [saved,         setSaved]         = useState(new Set());
   const [showShortlist, setShowShortlist] = useState(false);
+
+  // ── Fetch listings from Supabase ──────────────────────────────────────────
+  useEffect(() => { fetchListings(); }, []);
+
+  const fetchListings = async () => {
+    setLoading(true);
+    const { data, error } = await supabase
+      .from("listings")
+      .select("*")
+      .order("created_at", { ascending: false });
+    if (!error) setListings(data || []);
+    setLoading(false);
+  };
 
   // ── Filter logic ──────────────────────────────────────────────────────────
   const handleTypeToggle = (type) => {
@@ -94,7 +124,7 @@ export function ListingsPage({ setPage, locationFilter = "All", setLocationFilte
     setTypeFilter(next.length === 0 ? ["All"] : next);
   };
 
-  const filtered = LISTINGS.filter(l =>
+  const filtered = listings.filter(l =>
     (typeFilter.includes("All")  || typeFilter.includes(l.type))  &&
     (tenureFilter === "All"      || l.tenure === tenureFilter)     &&
     (locationFilter === "All"    || l.area === locationFilter)
@@ -171,7 +201,11 @@ export function ListingsPage({ setPage, locationFilter = "All", setLocationFilte
       <section className="list-sec">
         <div className="inner">
           <div className="list-grid">
-            {filtered.length === 0 ? (
+            {loading ? (
+              <div className="noresult">
+                <h3>Loading properties…</h3>
+              </div>
+            ) : filtered.length === 0 ? (
               <div className="noresult">
                 <h3>No properties found</h3>
                 <p>Try adjusting your filters or submit a request and we'll source options for you.</p>
@@ -181,8 +215,7 @@ export function ListingsPage({ setPage, locationFilter = "All", setLocationFilte
               return (
                 <div className="pcard" key={p.id}>
                   <div className="pimg">
-                    <div className="pimg-bg" style={{ background: p.gradient }} />
-                    <PropertyCardSVG type={p.type} />
+                    <PropertyImage p={p} className="pimg-bg" />
                     <div className={`pbadge${p.tenure === "Rent" ? " rent" : ""}`}>{p.tenure}</div>
                     {/* ── STAR / SAVE BUTTON ── */}
                     <button
@@ -194,16 +227,16 @@ export function ListingsPage({ setPage, locationFilter = "All", setLocationFilte
                     </button>
                   </div>
                   <div className="pbody">
-                    <div className="ptype">{p.type}</div>
+                    <div className="ptype">{p.type}{p.subtype ? ` · ${p.subtype}` : ""}</div>
                     <div className="ptitle">{p.title}</div>
                     <div className="ploc"><Icon.MapPin size={10} />{p.area}, {p.city}</div>
-                    <div className="psize"><Icon.Ruler size={11} />{p.sqm} sqm</div>
+                    {p.sqm && <div className="psize"><Icon.Ruler size={11} />{p.sqm} sqm</div>}
                     <div className="pprice">{p.price} <span>{p.period}</span></div>
                     <div className="pfeats">
-                      {p.features.map(f => <span className="pfeat" key={f}><Icon.Check size={8} />{f}</span>)}
+                      {(p.features || []).map(f => <span className="pfeat" key={f}><Icon.Check size={8} />{f}</span>)}
                     </div>
                     <div className="pdiv" />
-                    <p className="pdesc">{p.desc}</p>
+                    <p className="pdesc">{p.description}</p>
                   </div>
                   <div className="pfoot">
                     <div className="pstatus">
@@ -233,6 +266,7 @@ export function ListingsPage({ setPage, locationFilter = "All", setLocationFilte
       {/* ── MODALS / DRAWERS ──────────────────────────────────────────────── */}
       {showShortlist && (
         <ShortlistModal
+          listings={listings}
           saved={saved}
           onUnsave={toggleSave}
           onEnquire={setEnquiryProp}
