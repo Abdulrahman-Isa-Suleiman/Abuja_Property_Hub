@@ -17,13 +17,19 @@
 .rooms-val     { flex: 1; text-align: center; font-size: 1rem; font-weight: 500; color: var(--ink); font-family: var(--font-body); display: flex; align-items: center; justify-content: center; }
 .rooms-val.any { font-size: 0.74rem; color: var(--mist); font-weight: 400; letter-spacing: 0.04em; }
 
-/* ─── PRICE SLIDER ───────────────────────────────────────────────────────────── */
-.price-slider-wrap { background: var(--white); border: 1.5px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+/* ─── PRICE SLIDER (redesigned) ──────────────────────────────────────────────── */
+.price-slider { background: var(--white); border: 1.5px solid var(--border); border-radius: var(--radius); overflow: hidden; }
 
+/* Quick preset chips */
+.price-presets { display: flex; flex-wrap: wrap; gap: 0.5rem; padding: 1rem 1.1rem; border-bottom: 1px solid var(--border); background: var(--off); }
+.price-preset-chip { font-size: 0.72rem; letter-spacing: 0.02em; padding: 0.4rem 0.85rem; border: 1px solid var(--border); border-radius: 20px; background: var(--white); color: var(--charcoal); cursor: pointer; font-family: var(--font-body); transition: all 0.18s; white-space: nowrap; }
+.price-preset-chip:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-lt); }
+.price-preset-chip.on { background: var(--ink); color: var(--white); border-color: var(--ink); }
+
+/* Min / max value readout */
 .price-display { display: grid; grid-template-columns: 1fr auto 1fr; align-items: stretch; border-bottom: 1.5px solid var(--border); }
 .price-val-box             { padding: 0.85rem 1.1rem; }
 .price-val-box:first-child { border-right: 1px solid var(--border); }
-.price-val-box:last-child  { text-align: right; }
 
 .price-val-label  { display: block; font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--stone); margin-bottom: 0.18rem; font-weight: 500; }
 .price-val-amount { display: block; font-size: 1.05rem; font-weight: 500; color: var(--ink); font-family: var(--font-body); line-height: 1.1; letter-spacing: -0.01em; }
@@ -32,17 +38,34 @@
 .price-sep-col  { display: flex; align-items: center; justify-content: center; padding: 0 0.7rem; border-right: 1px solid var(--border); }
 .price-sep-dash { width: 10px; height: 1.5px; background: var(--mist); border-radius: 1px; }
 
-.price-track-wrap { padding: 1.4rem 1.4rem 1.1rem; }
-.price-track      { position: relative; height: 3px; background: var(--border); border-radius: 2px; margin: 0 10px; }
-.price-fill       { position: absolute; top: 0; height: 100%; background: var(--accent); border-radius: 2px; pointer-events: none; }
+/* Custom dual-handle track */
+.price-track-wrap { padding: 1.6rem 1.5rem 1.2rem; }
+.price-track      { position: relative; height: 4px; background: var(--border); border-radius: 3px; margin: 0 11px; cursor: pointer; }
+.price-fill       { position: absolute; top: 0; height: 100%; background: var(--accent); border-radius: 3px; pointer-events: none; }
 
-.price-thumb { position: absolute; width: calc(100% + 20px); left: -10px; top: -10px; height: 23px; appearance: none; background: transparent; pointer-events: none; outline: none; margin: 0; }
-.price-thumb::-webkit-slider-thumb { appearance: none; width: 22px; height: 22px; border-radius: 50%; background: var(--white); border: 2px solid var(--accent); box-shadow: 0 1px 6px rgba(28, 28, 28, 0.12), 0 2px 12px rgba(139, 115, 85, 0.22); pointer-events: all; cursor: grab; transition: transform 0.13s, box-shadow 0.13s; }
-.price-thumb::-webkit-slider-thumb:hover  { transform: scale(1.14); box-shadow: 0 2px 10px rgba(28, 28, 28, 0.14), 0 4px 18px rgba(139, 115, 85, 0.32); }
-.price-thumb::-webkit-slider-thumb:active { cursor: grabbing; }
-.price-thumb::-moz-range-thumb { width: 22px; height: 22px; border-radius: 50%; background: var(--white); border: 2px solid var(--accent); box-shadow: 0 1px 6px rgba(28, 28, 28, 0.12); pointer-events: all; cursor: grab; }
+.price-thumb {
+  position: absolute; top: 50%; width: 22px; height: 22px;
+  background: var(--white); border: 2px solid var(--accent); border-radius: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 1px 6px rgba(28, 28, 28, 0.12), 0 2px 12px rgba(139, 115, 85, 0.22);
+  cursor: grab; transition: transform 0.13s, box-shadow 0.13s;
+  touch-action: none;
+}
+.price-thumb:hover    { transform: translate(-50%, -50%) scale(1.14); box-shadow: 0 2px 10px rgba(28, 28, 28, 0.14), 0 4px 18px rgba(139, 115, 85, 0.32); }
+.price-thumb.dragging { cursor: grabbing; transform: translate(-50%, -50%) scale(1.2); z-index: 5; }
 
-.price-range-labels      { display: flex; justify-content: space-between; margin-top: 0.6rem; }
+.price-thumb-tip {
+  position: absolute; bottom: calc(100% + 10px); left: 50%; transform: translateX(-50%);
+  background: var(--ink); color: var(--white); font-size: 0.72rem; font-weight: 500;
+  padding: 0.3rem 0.65rem; border-radius: var(--radius-sm); white-space: nowrap;
+  pointer-events: none; animation: fadeUp 0.15s ease;
+}
+.price-thumb-tip::after {
+  content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
+  border: 5px solid transparent; border-top-color: var(--ink);
+}
+
+.price-range-labels      { display: flex; justify-content: space-between; margin-top: 0.85rem; }
 .price-range-labels span { font-size: 0.63rem; color: var(--mist); letter-spacing: 0.03em; }
 
 /* ─── URGENCY CARDS ──────────────────────────────────────────────────────────── */
@@ -60,4 +83,5 @@
 /* ─── RESPONSIVE ─────────────────────────────────────────────────────────────── */
 @media (max-width: 700px) {
   .ugroup { flex-direction: column; }
+  .price-presets { padding: 0.85rem; }
 }

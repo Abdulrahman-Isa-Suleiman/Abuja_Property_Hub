@@ -2,13 +2,16 @@ import { useState, useEffect } from "react";
 import "./RequestForm.css";
 import { Icon }                    from "./Icons";
 import { PriceSlider, RoomsStepper } from "./FormControls";
-import { parseQuery }              from "../utils/helpers";
+import { parseQuery, posToPrice }  from "../utils/helpers";
+import { supabase }                from "../utils/supabaseClient";
+import { TENURE_PRICE_RANGES }     from "../data/constants";
 
 const BLANK = {
   propertyType: "", subtype: "",
   location: "",     tenure: "Rent",
   bedrooms: 0,      bathrooms: 0,
   sizeMin: "",      sizeMax: "",
+  budgetPos: { lo: 0, hi: 1000 },
   details: "",      urgency: "",
   name: "",         phone: "",  email: "",
 };
@@ -56,6 +59,11 @@ export function RequestForm({ initialQuery }) {
     setErrors(e => ({ ...e, propertyType: "" }));
   };
 
+  // When tenure changes, reset the budget slider since Rent/Buy ranges differ
+  const setTenure = (t) => {
+    setForm(f => ({ ...f, tenure: t, budgetPos: { lo: 0, hi: 1000 } }));
+  };
+
   const validate = () => {
     const e = {};
     if (!form.propertyType)    e.propertyType = "Please select a property type";
@@ -65,10 +73,39 @@ export function RequestForm({ initialQuery }) {
     return !Object.keys(e).length;
   };
 
-  const submit = () => {
+  const submit = async () => {
     if (!validate()) return;
     setLoading(true);
-    setTimeout(() => { setLoading(false); setDone(true); }, 2000); // TODO: replace with API call
+
+    const { min, max } = TENURE_PRICE_RANGES[form.tenure] || TENURE_PRICE_RANGES.Both;
+    const budget_min = form.budgetPos.lo === 0    ? null : Math.round(posToPrice(form.budgetPos.lo, min, max));
+    const budget_max = form.budgetPos.hi === 1000 ? null : Math.round(posToPrice(form.budgetPos.hi, min, max));
+
+    const payload = {
+      property_type: form.propertyType || null,
+      subtype:       form.subtype || null,
+      location:      form.location,
+      tenure:        form.tenure,
+      bedrooms:      showRooms ? form.bedrooms : null,
+      bathrooms:     showRooms ? form.bathrooms : null,
+      size_min:      form.sizeMin ? parseInt(form.sizeMin) : null,
+      size_max:      form.sizeMax ? parseInt(form.sizeMax) : null,
+      budget_min,
+      budget_max,
+      details:       form.details || null,
+      urgency:       form.urgency || null,
+      name:          form.name || null,
+      phone:         form.phone,
+      email:         form.email || null,
+    };
+
+    const { error } = await supabase.from("requests").insert([payload]);
+    setLoading(false);
+    if (error) {
+      alert("Something went wrong submitting your request. Please try again.");
+      return;
+    }
+    setDone(true);
   };
 
   const showRooms   = NEEDS_ROOMS.has(form.propertyType) && !NO_ROOM_SUBTYPES.has(form.subtype);
@@ -148,7 +185,7 @@ export function RequestForm({ initialQuery }) {
             <label className="flabel">Rent or Buy</label>
             <div className="tgroup">
               {["Rent","Buy","Both"].map(t => (
-                <button key={t} className={`tbtn${form.tenure === t ? " on" : ""}`} onClick={() => set("tenure", t)}>{t}</button>
+                <button key={t} className={`tbtn${form.tenure === t ? " on" : ""}`} onClick={() => setTenure(t)}>{t}</button>
               ))}
             </div>
           </div>
@@ -197,7 +234,7 @@ export function RequestForm({ initialQuery }) {
         <div className="frow c1">
           <div className="ff">
             <label className="flabel">Budget Range (₦)</label>
-            <PriceSlider tenure={form.tenure} />
+            <PriceSlider tenure={form.tenure} value={form.budgetPos} onChange={v => set("budgetPos", v)} />
           </div>
         </div>
 

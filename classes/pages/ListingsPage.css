@@ -132,3 +132,22 @@
   .sl-grid { grid-template-columns: 1fr; }
   .sl-modal { max-height: 90vh; }
 }
+
+/* â”€â”€â”€ IMAGE GALLERY (multi-photo cards) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.pimg-nav {
+  position: absolute; top: 50%; transform: translateY(-50%); z-index: 2;
+  width: 30px; height: 30px; border-radius: 50%;
+  background: rgba(255,255,255,0.85); border: none; color: var(--ink);
+  font-size: 1.3rem; line-height: 1; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; transition: opacity 0.18s, background 0.18s;
+  backdrop-filter: blur(4px);
+}
+.pcard:hover .pimg-nav { opacity: 1; }
+.pimg-nav:hover { background: var(--white); }
+.pimg-nav-prev { left: 0.6rem; }
+.pimg-nav-next { right: 0.6rem; }
+
+.pimg-dots { position: absolute; bottom: 0.7rem; left: 50%; transform: translateX(-50%); z-index: 2; display: flex; gap: 0.35rem; }
+.pimg-dot { width: 5px; height: 5px; border-radius: 50%; background: rgba(255,255,255,0.55); cursor: pointer; transition: all 0.18s; }
+.pimg-dot.on { background: var(--white); width: 14px; border-radius: 3px; }

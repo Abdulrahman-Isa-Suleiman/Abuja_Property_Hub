@@ -75,15 +75,36 @@
 .afrow.c2 { grid-template-columns: 1fr 1fr; }
 .afrow.c3 { grid-template-columns: 1fr 1fr 1fr; }
 
-/* ─── IMAGE UPLOAD ───────────────────────────────────────────────────────────── */
-.image-upload-btn { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.6rem; border: 1.5px dashed var(--border); border-radius: var(--radius); padding: 2.2rem 1rem; cursor: pointer; color: var(--stone); transition: all 0.2s; background: var(--off); }
-.image-upload-btn:hover { border-color: var(--accent-md); color: var(--accent); background: var(--accent-lt); }
-.image-upload-btn span { font-size: 0.8rem; }
-.image-preview-wrap { position: relative; border-radius: var(--radius); overflow: hidden; border: 1.5px solid var(--border); }
-.image-preview { width: 100%; height: 200px; object-fit: cover; display: block; }
-.image-remove-btn { position: absolute; top: 0.6rem; right: 0.6rem; background: rgba(28,28,28,0.75); color: var(--white); border: none; padding: 0.4rem 0.8rem; border-radius: var(--radius-sm); font-family: var(--font-body); font-size: 0.72rem; cursor: pointer; transition: background 0.18s; backdrop-filter: blur(4px); }
-.image-remove-btn:hover { background: rgba(192,57,43,0.85); }
+/* ─── TABS ───────────────────────────────────────────────────────────────────── */
+.admin-tabs { display: flex; gap: 0.5rem; padding: 0 2.5rem; background: var(--white); border-bottom: 1px solid var(--border); }
+.admin-tab { position: relative; background: none; border: none; padding: 0.9rem 1.1rem; font-family: var(--font-body); font-size: 0.8rem; letter-spacing: 0.04em; color: var(--stone); cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.18s; display: flex; align-items: center; gap: 0.5rem; }
+.admin-tab:hover { color: var(--ink); }
+.admin-tab.on { color: var(--accent); border-bottom-color: var(--accent); font-weight: 500; }
+.admin-tab-badge { background: var(--accent); color: var(--white); font-size: 0.65rem; font-weight: 600; padding: 0.1rem 0.45rem; border-radius: 10px; min-width: 18px; text-align: center; }
+
+/* ─── IMAGE UPLOAD GRID (multiple photos) ────────────────────────────────────── */
+.image-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 0.7rem; }
+.image-tile { position: relative; aspect-ratio: 4/3; border-radius: var(--radius-sm); overflow: hidden; border: 1.5px solid var(--border); background: var(--off); }
+.image-tile img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.image-tile-remove { position: absolute; top: 0.3rem; right: 0.3rem; width: 22px; height: 22px; border-radius: 50%; background: rgba(28,28,28,0.75); color: var(--white); border: none; font-size: 0.65rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.18s; backdrop-filter: blur(4px); }
+.image-tile-remove:hover { background: rgba(192,57,43,0.9); }
+.image-tile-new { position: absolute; bottom: 0.3rem; left: 0.3rem; background: var(--accent); color: var(--white); font-size: 0.58rem; letter-spacing: 0.06em; text-transform: uppercase; padding: 0.15rem 0.4rem; border-radius: 2px; }
+.image-tile-add { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.4rem; border: 1.5px dashed var(--border); cursor: pointer; color: var(--stone); transition: all 0.2s; background: var(--off); }
+.image-tile-add:hover { border-color: var(--accent-md); color: var(--accent); background: var(--accent-lt); }
+.image-tile-add span { font-size: 0.68rem; text-align: center; padding: 0 0.3rem; }
 .admin-thumb { width: 44px; height: 32px; border-radius: var(--radius-sm); object-fit: cover; }
+
+/* ─── REQUEST DETAIL MODAL ───────────────────────────────────────────────────── */
+.req-detail-section { border-bottom: 1px solid var(--border); padding-bottom: 1.1rem; margin-bottom: 0.2rem; }
+.req-detail-section:last-child { border-bottom: none; }
+.req-detail-label { font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); font-weight: 500; margin-bottom: 0.7rem; }
+.req-detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+.req-detail-grid > div { display: flex; flex-direction: column; gap: 0.15rem; }
+.req-detail-grid span { font-size: 0.63rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--stone); }
+.req-detail-grid strong { font-size: 0.87rem; color: var(--ink); font-weight: 500; }
+.req-detail-grid a { color: var(--accent); text-decoration: none; }
+.req-detail-grid a:hover { text-decoration: underline; }
+.req-detail-text { font-size: 0.85rem; color: var(--charcoal); line-height: 1.7; font-weight: 300; }
 
 /* ─── TENURE TOGGLE ──────────────────────────────────────────────────────────── */
 .atgroup { display: flex; background: var(--off); border: 1.5px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; padding: 3px; gap: 2px; }

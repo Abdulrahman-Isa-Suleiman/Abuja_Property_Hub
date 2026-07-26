@@ -20,15 +20,39 @@ function PropertyCardSVG({ type }) {
   );
 }
 
-// ─── PROPERTY IMAGE (real photo if available, else gradient + icon) ──────────
-function PropertyImage({ p, className = "pimg-bg" }) {
-  if (p.image_url) {
-    return <img className={`${className}-photo`} src={p.image_url} alt={p.title} />;
+// ─── PROPERTY IMAGE GALLERY (real photos if available, else gradient + icon) ──
+function PropertyImageGallery({ p }) {
+  const images = p.image_urls && p.image_urls.length > 0
+    ? p.image_urls
+    : (p.image_url ? [p.image_url] : []); // backward compatibility with old single-image records
+  const [idx, setIdx] = useState(0);
+
+  if (images.length === 0) {
+    return (
+      <>
+        <div className="pimg-bg" style={{ background: p.gradient }} />
+        <PropertyCardSVG type={p.type} />
+      </>
+    );
   }
+
+  const prev = (e) => { e.stopPropagation(); setIdx(i => (i === 0 ? images.length - 1 : i - 1)); };
+  const next = (e) => { e.stopPropagation(); setIdx(i => (i === images.length - 1 ? 0 : i + 1)); };
+
   return (
     <>
-      <div className={className} style={{ background: p.gradient }} />
-      <PropertyCardSVG type={p.type} />
+      <img className="pimg-bg-photo" src={images[idx]} alt={p.title} />
+      {images.length > 1 && (
+        <>
+          <button className="pimg-nav pimg-nav-prev" onClick={prev}>‹</button>
+          <button className="pimg-nav pimg-nav-next" onClick={next}>›</button>
+          <div className="pimg-dots">
+            {images.map((_, i) => (
+              <span key={i} className={`pimg-dot${i === idx ? " on" : ""}`} onClick={(e) => { e.stopPropagation(); setIdx(i); }} />
+            ))}
+          </div>
+        </>
+      )}
     </>
   );
 }
@@ -60,8 +84,8 @@ function ShortlistModal({ listings, saved, onUnsave, onEnquire, onClose }) {
               {savedListings.map(p => (
                 <div className="sl-card" key={p.id}>
                   {/* Mini image */}
-                  <div className="sl-card-img" style={p.image_url ? {} : { background: p.gradient }}>
-                    {p.image_url && <img className="sl-card-img-photo" src={p.image_url} alt={p.title} />}
+                  <div className="sl-card-img" style={(p.image_urls?.[0] || p.image_url) ? {} : { background: p.gradient }}>
+                    {(p.image_urls?.[0] || p.image_url) && <img className="sl-card-img-photo" src={p.image_urls?.[0] || p.image_url} alt={p.title} />}
                     <div className={`sl-card-badge${p.tenure === "Rent" ? " rent" : ""}`}>{p.tenure}</div>
                     <button className="sl-unsave" onClick={() => onUnsave(p.id)} title="Remove from shortlist">
                       <Icon.StarFilled size={14} />
@@ -215,7 +239,7 @@ export function ListingsPage({ setPage, locationFilter = "All", setLocationFilte
               return (
                 <div className="pcard" key={p.id}>
                   <div className="pimg">
-                    <PropertyImage p={p} className="pimg-bg" />
+                    <PropertyImageGallery p={p} />
                     <div className={`pbadge${p.tenure === "Rent" ? " rent" : ""}`}>{p.tenure}</div>
                     {/* ── STAR / SAVE BUTTON ── */}
                     <button
